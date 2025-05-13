@@ -87,7 +87,7 @@ const RestaurantBanner = () => {
     <div className="relative">
   <div className="max-w-4xl mx-auto flex justify-center -mt-12">
     <Avatar className="h-32 w-32 border-4 border-white shadow-lg bg-green-500">
-      <AvatarImage src="/lovable-uploads/..." />
+      <AvatarImage src="/lovable-uploads/25bbe5c3-283a-45eb-9771-53c8950675b8.png" />
       <AvatarFallback className="text-4xl text-white">M</AvatarFallback>
     </Avatar>
   </div>
