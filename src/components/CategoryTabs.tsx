@@ -19,13 +19,10 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
   const [showTabs, setShowTabs] = useState(false);
   const isMobile = useIsMobile();
 
-  // Mostrar el menú solo cuando la primera categoría entra al viewport
+  // Mostrar el menú de categorías en cuanto el bloque de menú entra al viewport
   useEffect(() => {
-    const firstCategoryId = categories[0]?.id;
-    if (!firstCategoryId) return;
-
-    const targetEl = document.getElementById(firstCategoryId);
-    if (!targetEl) return;
+    const section = document.getElementById('menu-start');
+    if (!section) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -33,18 +30,16 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
       },
       {
         root: null,
-        threshold: 0.1
+        threshold: 0.01, // detecta tan pronto entra al viewport
       }
     );
 
-    observer.observe(targetEl);
+    observer.observe(section);
 
-    return () => {
-      observer.disconnect();
-    };
-  }, [categories]);
+    return () => observer.disconnect();
+  }, []);
 
-  // Scroll animado solo cuando el cambio fue por clic
+  // Scroll hacia tab activo solo cuando fue por clic
   useEffect(() => {
     if (!tabsRef.current || !preventTabScroll) return;
 

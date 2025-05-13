@@ -9,6 +9,7 @@ interface MenuSectionProps {
   categoryName: string;
   items: MenuItemType[];
   isActive: boolean;
+  anchorId?: string;
 }
 
 const MenuSection: React.FC<MenuSectionProps> = ({
