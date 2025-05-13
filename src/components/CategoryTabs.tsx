@@ -19,18 +19,32 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
   const [showTabs, setShowTabs] = useState(false);
   const isMobile = useIsMobile();
 
-  // Mostrar los tabs después de cierto scroll
+  // Mostrar el menú solo cuando la primera categoría entra al viewport
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollThreshold = 300;
-      setShowTabs(window.scrollY > scrollThreshold);
+    const firstCategoryId = categories[0]?.id;
+    if (!firstCategoryId) return;
+
+    const targetEl = document.getElementById(firstCategoryId);
+    if (!targetEl) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setShowTabs(entry.isIntersecting);
+      },
+      {
+        root: null,
+        threshold: 0.1
+      }
+    );
+
+    observer.observe(targetEl);
+
+    return () => {
+      observer.disconnect();
     };
+  }, [categories]);
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Solo scroll animado cuando el cambio fue por clic
+  // Scroll animado solo cuando el cambio fue por clic
   useEffect(() => {
     if (!tabsRef.current || !preventTabScroll) return;
 
@@ -79,7 +93,6 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
                   onClick={() => handleCategoryClick(category.id)}
                 >
                   {category.name}
-                  {/* Indicador azul con transición por visibilidad */}
                   <div
                     className={`absolute bottom-0 left-0 w-full h-1 bg-navy-700 rounded-t-sm transform-gpu transition-opacity duration-300 ${
                       isActive ? 'opacity-100' : 'opacity-0'
