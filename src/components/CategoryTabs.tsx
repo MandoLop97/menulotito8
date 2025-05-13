@@ -15,9 +15,8 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
   setActiveCategory
 }) => {
   const tabsRef = useRef<HTMLDivElement>(null);
-  const [preventTabScroll, setPreventTabScroll] = useState(false);
   const [showTabs, setShowTabs] = useState(false);
-  const clickedRef = useRef(false); // ✅ Saber si fue por clic
+  const clickedRef = useRef(false); // ✅ Usamos esta bandera para controlar el scroll
   const isMobile = useIsMobile();
 
   // Mostrar los tabs después de cierto scroll
@@ -31,7 +30,7 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Detectar en qué sección está el usuario y actualizar activeCategory automáticamente
+  // ScrollSpy: Detectar qué sección está en pantalla y actualizar el activeCategory
   useEffect(() => {
     const sectionElements = categories.map(category =>
       document.getElementById(`category-${category.id}`)
@@ -62,51 +61,45 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
     return () => observer.disconnect();
   }, [categories]);
 
+  // ScrollIntoView solo cuando fue clic del usuario
   useEffect(() => {
-  if (!tabsRef.current || !clickedRef.current) return;
+    if (!tabsRef.current || !clickedRef.current) return;
 
-  const activeTabEl = tabsRef.current.querySelector(
-    `.category-tab[data-category="${activeCategory}"]`
-  ) as HTMLElement;
+    const activeTabEl = tabsRef.current.querySelector(
+      `.category-tab[data-category="${activeCategory}"]`
+    ) as HTMLElement;
 
-  if (activeTabEl) {
-    const container = tabsRef.current;
-    const containerRect = container.getBoundingClientRect();
-    const activeRect = activeTabEl.getBoundingClientRect();
+    if (activeTabEl) {
+      const container = tabsRef.current;
+      const containerRect = container.getBoundingClientRect();
+      const activeRect = activeTabEl.getBoundingClientRect();
 
-    const isFullyVisible =
-      activeRect.left >= containerRect.left &&
-      activeRect.right <= containerRect.right;
+      const isFullyVisible =
+        activeRect.left >= containerRect.left &&
+        activeRect.right <= containerRect.right;
 
-    if (!isFullyVisible) {
-      activeTabEl.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-        inline: 'center'
-      });
+      if (!isFullyVisible) {
+        activeTabEl.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'center'
+        });
+      }
     }
-  }
 
-  // Reiniciar clic manual después de scroll automático
-  const timeout = setTimeout(() => {
-    clickedRef.current = false;
-  }, 400);
+    const timeout = setTimeout(() => {
+      clickedRef.current = false;
+    }, 400);
 
-  return () => clearTimeout(timeout);
-}, [activeCategory]);
+    return () => clearTimeout(timeout);
+  }, [activeCategory]);
 
-
+  // Click manual
   const handleCategoryClick = (categoryId: string) => {
     if (categoryId === activeCategory) return;
 
-    clickedRef.current = true; // ✅ Marcar que fue clic
-    setPreventTabScroll(true);
+    clickedRef.current = true;
     setActiveCategory(categoryId);
-
-    setTimeout(() => {
-      setPreventTabScroll(false);
-      clickedRef.current = false;
-    }, 500);
   };
 
   if (!showTabs) return null;
