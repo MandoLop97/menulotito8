@@ -18,8 +18,9 @@ const MenuItem: React.FC<MenuItemProps> = ({ item }) => {
 
   return (
     <Card className="overflow-hidden border border-gray-100 hover:shadow-md transition-all duration-300 rounded-xl">
-      <div className={`flex h-full ${isMobile ? 'flex-row p-4' : 'flex-col p-4'}`}>
-        <div className={`${isMobile ? 'flex-1 pr-4' : 'mb-3'}`}>
+      <div className="flex flex-row items-start p-4 gap-4">
+        {/* Lado izquierdo: texto */}
+        <div className="flex-1">
           <h3 className="text-lg font-semibold text-gray-800 line-clamp-1">{item.name}</h3>
           <p className="text-sm text-gray-600 mt-1 line-clamp-2">{item.description}</p>
           <p className="text-base font-bold text-orange-600 mt-2">
@@ -27,7 +28,8 @@ const MenuItem: React.FC<MenuItemProps> = ({ item }) => {
           </p>
         </div>
 
-        <div className="relative w-full max-w-[112px] shrink-0">
+        {/* Lado derecho: imagen + botón */}
+        <div className="relative w-28 shrink-0">
           <div className="overflow-hidden rounded-lg border border-gray-200 shadow-sm">
             <AspectRatio ratio={1 / 1} className="bg-gray-50">
               <img
@@ -49,12 +51,6 @@ const MenuItem: React.FC<MenuItemProps> = ({ item }) => {
           </Button>
         </div>
       </div>
-
-      {!isMobile && (
-        <CardContent className="pt-3">
-          {/* Aquí podrías añadir más info o CTA si es necesario */}
-        </CardContent>
-      )}
     </Card>
   );
 };
