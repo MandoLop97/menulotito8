@@ -62,32 +62,39 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
     return () => observer.disconnect();
   }, [categories]);
 
-  // Scroll animado horizontal solo si fue clic del usuario
   useEffect(() => {
-    if (!tabsRef.current || !preventTabScroll || !clickedRef.current) return;
+  if (!tabsRef.current || !clickedRef.current) return;
 
-    const activeTabEl = tabsRef.current.querySelector(
-      `.category-tab[data-category="${activeCategory}"]`
-    ) as HTMLElement;
+  const activeTabEl = tabsRef.current.querySelector(
+    `.category-tab[data-category="${activeCategory}"]`
+  ) as HTMLElement;
 
-    if (activeTabEl) {
-      const container = tabsRef.current;
-      const containerRect = container.getBoundingClientRect();
-      const activeRect = activeTabEl.getBoundingClientRect();
+  if (activeTabEl) {
+    const container = tabsRef.current;
+    const containerRect = container.getBoundingClientRect();
+    const activeRect = activeTabEl.getBoundingClientRect();
 
-      const isFullyVisible =
-        activeRect.left >= containerRect.left &&
-        activeRect.right <= containerRect.right;
+    const isFullyVisible =
+      activeRect.left >= containerRect.left &&
+      activeRect.right <= containerRect.right;
 
-      if (!isFullyVisible) {
-        activeTabEl.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest',
-          inline: 'center'
-        });
-      }
+    if (!isFullyVisible) {
+      activeTabEl.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'center'
+      });
     }
-  }, [preventTabScroll]);
+  }
+
+  // Reiniciar clic manual después de scroll automático
+  const timeout = setTimeout(() => {
+    clickedRef.current = false;
+  }, 400);
+
+  return () => clearTimeout(timeout);
+}, [activeCategory]);
+
 
   const handleCategoryClick = (categoryId: string) => {
     if (categoryId === activeCategory) return;
