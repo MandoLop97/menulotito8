@@ -30,19 +30,30 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Solo scroll animado cuando el cambio fue por clic
+  // Scroll animado solo si el tab no está completamente visible
   useEffect(() => {
     if (!tabsRef.current || !preventTabScroll) return;
 
     const activeTabEl = tabsRef.current.querySelector(
       `.category-tab[data-category="${activeCategory}"]`
-    );
+    ) as HTMLElement;
+
     if (activeTabEl) {
-      activeTabEl.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-        inline: 'center'
-      });
+      const container = tabsRef.current;
+      const containerRect = container.getBoundingClientRect();
+      const activeRect = activeTabEl.getBoundingClientRect();
+
+      const isFullyVisible =
+        activeRect.left >= containerRect.left &&
+        activeRect.right <= containerRect.right;
+
+      if (!isFullyVisible) {
+        activeTabEl.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'center'
+        });
+      }
     }
   }, [preventTabScroll]);
 
@@ -79,7 +90,6 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
                   onClick={() => handleCategoryClick(category.id)}
                 >
                   {category.name}
-                  {/* Indicador azul con transición por visibilidad */}
                   <div
                     className={`absolute bottom-0 left-0 w-full h-1 bg-navy-700 rounded-t-sm transform-gpu transition-opacity duration-400 ${
                       isActive ? 'opacity-100' : 'opacity-0'
