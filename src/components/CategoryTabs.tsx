@@ -30,6 +30,39 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+
+  // Detectar en qué sección está el usuario y actualizar activeCategory automáticamente
+useEffect(() => {
+  const sectionElements = categories.map(category =>
+    document.getElementById(`category-${category.id}`)
+  ).filter(Boolean) as HTMLElement[];
+
+  if (sectionElements.length === 0) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const visibleEntries = entries
+        .filter(entry => entry.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+
+      if (visibleEntries.length > 0) {
+        const visibleId = visibleEntries[0].target.getAttribute('data-category-section');
+        if (visibleId && visibleId !== activeCategory) {
+          setActiveCategory(visibleId);
+        }
+      }
+    },
+    {
+      root: null,
+      threshold: 0.4 // Puedes ajustar este valor si se activa muy rápido o tarde
+    }
+  );
+
+  sectionElements.forEach((el) => observer.observe(el));
+  return () => observer.disconnect();
+}, [categories]); 
+
+
   // Scroll animado solo si el tab no está completamente visible
   useEffect(() => {
     if (!tabsRef.current || !preventTabScroll) return;
