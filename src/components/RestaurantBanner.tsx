@@ -48,7 +48,7 @@ const RestaurantBanner = () => {
   };
   
   return (
-    <div className="restaurant-banner relative mb-14">
+    <div className="restaurant-banner relative mb-8">
       {/* Banner Image - Altura aumentada para móviles */}
       <div className={`${isMobile ? 'h-60 md:h-72' : 'h-48 md:h-64'} w-full overflow-hidden rounded-lg`}>
         <img
