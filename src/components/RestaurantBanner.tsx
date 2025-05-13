@@ -61,7 +61,7 @@ const RestaurantBanner = () => {
   return (
     <div className="restaurant-banner relative mb-4">
       {/* Banner ajustado */}
-      <div className="w-full md:max-w-4xl md:mx-auto overflow-hidden relative h-72 md:h-[22rem] md:rounded-b-2xl">
+      <div className="w-full md:w-[90%] md:max-w-6xl md:mx-auto overflow-hidden relative h-72 md:h-[22rem] md:rounded-b-2xl">
         <img
           src="https://lotito.b-cdn.net/Lotito/ChatGPT+Image+12+may+2025%2C+22_22_02.png"
           alt="Restaurant Banner"
