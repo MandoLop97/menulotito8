@@ -52,7 +52,7 @@ const RestaurantBanner = () => {
       {/* Banner Image - Altura aumentada para móviles */}
       <div className={`${isMobile ? 'h-60 md:h-72' : 'h-48 md:h-64'} w-full overflow-hidden relative`}>
   <img
-    src="https://sdmntprwestus2.oaiusercontent.com/files/00000000-aaf8-61f8-bec8-762329e9987f/raw?se=2025-05-13T03%3A13%3A39Z&sp=r&sv=2024-08-04&sr=b&scid=00000000-0000-0000-0000-000000000000&skoid=30ec2761-8f41-44db-b282-7a0f8809659b&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-05-13T02%3A50%3A17Z&ske=2025-05-14T02%3A50%3A17Z&sks=b&skv=2024-08-04&sig=vv3c8muTI%2B2cbfEqptxU2vd8w/NTmrHp/VifLJJsXc0%3D"
+    src="https://img.freepik.com/psd-premium/arreglo-comida-rapida-sobre-fondo-madera_23-2148321316.jpg"
     alt="Restaurant Banner"
     className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
   />
