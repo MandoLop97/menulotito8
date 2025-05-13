@@ -84,12 +84,15 @@ const RestaurantBanner = () => {
       </div>
       
       {/* Profile avatar - positioned to overlap the banner and content */}
-      <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-12 animate-fade-in">
-        <Avatar className="h-24 w-24 border-4 border-white shadow-lg bg-green-500">
-          <AvatarImage src="/lovable-uploads/25bbe5c3-283a-45eb-9771-53c8950675b8.png" />
-          <AvatarFallback className="text-4xl text-white">M</AvatarFallback>
-        </Avatar>
-      </div>
+      <div className="relative">
+  <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-12 animate-fade-in">
+    <Avatar className="h-24 w-24 border-4 border-white shadow-lg bg-green-500">
+      <AvatarImage src="/lovable-uploads/25bbe5c3-283a-45eb-9771-53c8950675b8.png" />
+      <AvatarFallback className="text-4xl text-white">M</AvatarFallback>
+    </Avatar>
+  </div>
+</div>
+
       
       {/* Business Hours Dialog */}
       <Dialog open={showHours} onOpenChange={setShowHours}>
