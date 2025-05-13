@@ -1,7 +1,6 @@
-
 import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Clock, MapPin, Share2, X, ExternalLink } from "lucide-react";
+import { Clock, MapPin, Share2, ExternalLink } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -12,7 +11,7 @@ const RestaurantBanner = () => {
   const [showLocation, setShowLocation] = useState(false);
   const [showShare, setShowShare] = useState(false);
   const isMobile = useIsMobile();
-  
+
   const businessHours = [
     { day: "Lunes", hours: "Abierto todo el día" },
     { day: "Martes", hours: "Abierto todo el día" },
@@ -22,17 +21,29 @@ const RestaurantBanner = () => {
     { day: "Sábado", hours: "Abierto todo el día" },
     { day: "Domingo", hours: "Abierto todo el día" },
   ];
-  
+
   const location = {
     address: "Calle 44 #398, Los Pinos, Mérida, Yucatán (Frente a la escuela secundaria ESFER)",
     mapUrl: "https://maps.google.com/?q=Mérida,+Yucatán"
   };
-  
+
   const shareOptions = [
-    { name: "WhatsApp", icon: "whatsapp", url: `https://wa.me/?text=${encodeURIComponent('Mira este restaurante: ' + window.location.href)}` },
-    { name: "Facebook", icon: "facebook", url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}` },
-    { name: "Twitter", icon: "twitter", url: `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent('Mira este restaurante')}` },
-    { name: "Email", icon: "mail", url: `mailto:?subject=${encodeURIComponent('Restaurante recomendado')}&body=${encodeURIComponent('Mira este restaurante: ' + window.location.href)}` },
+    {
+      name: "WhatsApp",
+      url: `https://wa.me/?text=${encodeURIComponent('Mira este restaurante: ' + window.location.href)}`
+    },
+    {
+      name: "Facebook",
+      url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`
+    },
+    {
+      name: "Twitter",
+      url: `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent('Mira este restaurante')}`
+    },
+    {
+      name: "Email",
+      url: `mailto:?subject=${encodeURIComponent('Restaurante recomendado')}&body=${encodeURIComponent('Mira este restaurante: ' + window.location.href)}`
+    }
   ];
 
   const handleShare = (option: { name: string, url: string }) => {
@@ -40,65 +51,63 @@ const RestaurantBanner = () => {
     setShowShare(false);
     toast.success(`Compartido en ${option.name}`);
   };
-  
+
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href);
     toast.success("Enlace copiado al portapapeles");
     setShowShare(false);
   };
-  
+
   return (
     <div className="restaurant-banner relative mb-4">
-      {/* Banner Image - Altura aumentada para móviles */}
-      <div className={`${isMobile ? 'h-60 md:h-72' : 'h-48 md:h-64'} w-full overflow-hidden relative`}>
-  <img
-    src="https://lotito.b-cdn.net/Lotito/ChatGPT+Image+12+may+2025%2C+22_22_02.png"
-    alt="Restaurant Banner"
-    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-  />
+      {/* Banner principal */}
+      <div className={`${isMobile ? 'h-72' : 'h-[22rem]'} w-full overflow-hidden relative rounded-b-2xl`}>
+        <img
+          src="https://lotito.b-cdn.net/Lotito/ChatGPT+Image+12+may+2025%2C+22_22_02.png"
+          alt="Restaurant Banner"
+          className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+        />
 
-  {/* 🔽 Gradiente negro superpuesto */}
-  <div className="absolute inset-0 bg-gradient-to-t from-black/45 to-transparent pointer-events-none z-10" />
+        {/* Gradiente elegante */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/10 to-transparent pointer-events-none z-10" />
 
-  {/* 🔽 Botones encima del gradiente */}
-  <div className="absolute top-4 right-4 flex gap-2 z-20">
-    <button 
-      className="bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition-colors"
-      onClick={() => setShowHours(true)}
-      aria-label="Ver horarios"
-    >
-      <Clock className="h-5 w-5 text-gray-700" />
-    </button>
-    <button 
-      className="bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition-colors"
-      onClick={() => setShowLocation(true)}
-      aria-label="Ver ubicación"
-    >
-      <MapPin className="h-5 w-5 text-gray-700" />
-    </button>
-    <button 
-      className="bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition-colors"
-      onClick={() => setShowShare(true)}
-      aria-label="Compartir"
-    >
-      <Share2 className="h-5 w-5 text-gray-700" />
-    </button>
-  </div>
-</div>
+        {/* Botones flotantes */}
+        <div className="absolute top-4 right-4 flex gap-2 z-20">
+          <button
+            className="bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-sm hover:bg-white transition"
+            onClick={() => setShowHours(true)}
+            aria-label="Ver horarios"
+          >
+            <Clock className="h-5 w-5 text-gray-700" />
+          </button>
+          <button
+            className="bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-sm hover:bg-white transition"
+            onClick={() => setShowLocation(true)}
+            aria-label="Ver ubicación"
+          >
+            <MapPin className="h-5 w-5 text-gray-700" />
+          </button>
+          <button
+            className="bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-sm hover:bg-white transition"
+            onClick={() => setShowShare(true)}
+            aria-label="Compartir"
+          >
+            <Share2 className="h-5 w-5 text-gray-700" />
+          </button>
+        </div>
+      </div>
 
-      
-      {/* Profile avatar - positioned to overlap the banner and content */}
-    <div className="relative">
-  <div className="max-w-4xl mx-auto flex justify-center -mt-12 relative z-30">
-  <Avatar className="h-32 w-32 border-4 border-white shadow-lg bg-green-500">
-      <AvatarImage src="https://lotito.b-cdn.net/Lotito/99af0886-226f-4ce1-807e-c70035257bd2.png" />
-      <AvatarFallback className="text-4xl text-white">M</AvatarFallback>
-    </Avatar>
-  </div>
-</div>
+      {/* Avatar destacado */}
+      <div className="relative">
+        <div className="max-w-4xl mx-auto flex justify-center -mt-14 relative z-30">
+          <Avatar className="h-28 w-28 border-4 border-white shadow-md bg-white">
+            <AvatarImage src="https://lotito.b-cdn.net/Lotito/99af0886-226f-4ce1-807e-c70035257bd2.png" />
+            <AvatarFallback className="text-4xl text-gray-800">M</AvatarFallback>
+          </Avatar>
+        </div>
+      </div>
 
-      
-      {/* Business Hours Dialog */}
+      {/* Diálogo: Horarios */}
       <Dialog open={showHours} onOpenChange={setShowHours}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
@@ -117,8 +126,8 @@ const RestaurantBanner = () => {
           </Button>
         </DialogContent>
       </Dialog>
-      
-      {/* Location Dialog */}
+
+      {/* Diálogo: Ubicación */}
       <Dialog open={showLocation} onOpenChange={setShowLocation}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
@@ -127,15 +136,15 @@ const RestaurantBanner = () => {
           <div className="py-4">
             <p className="text-gray-700 mb-6">{location.address}</p>
             <div className="flex gap-4 flex-col sm:flex-row">
-              <Button 
+              <Button
                 className="flex-1"
                 onClick={() => window.open(location.mapUrl, '_blank')}
               >
                 <ExternalLink className="mr-2 h-4 w-4" />
                 Ver la ubicación en el mapa
               </Button>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 className="flex-1"
                 onClick={() => setShowLocation(false)}
               >
@@ -145,8 +154,8 @@ const RestaurantBanner = () => {
           </div>
         </DialogContent>
       </Dialog>
-      
-      {/* Share Dialog */}
+
+      {/* Diálogo: Compartir */}
       <Dialog open={showShare} onOpenChange={setShowShare}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
@@ -167,8 +176,8 @@ const RestaurantBanner = () => {
               </Button>
             ))}
           </div>
-          <Button 
-            variant="secondary" 
+          <Button
+            variant="secondary"
             className="w-full mt-2"
             onClick={handleCopyLink}
           >
