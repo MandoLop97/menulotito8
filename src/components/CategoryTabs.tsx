@@ -16,10 +16,9 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
 }) => {
   const tabsRef = useRef<HTMLDivElement>(null);
   const [showTabs, setShowTabs] = useState(false);
-  const clickedRef = useRef(false);
   const isMobile = useIsMobile();
 
-  // Mostrar tabs después de cierto scroll
+  // Mostrar los tabs después de cierto scroll
   useEffect(() => {
     const handleScroll = () => {
       const scrollThreshold = 400;
@@ -30,7 +29,7 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Scrollspy - detecta sección visible y actualiza activeCategory
+  // ScrollSpy para actualizar el tab activo al hacer scroll vertical
   useEffect(() => {
     const sectionElements = categories
       .map(category => document.getElementById(`category-${category.id}`))
@@ -46,7 +45,7 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
 
         if (visibleEntries.length > 0) {
           const visibleId = visibleEntries[0].target.getAttribute('data-category-section');
-          if (visibleId && visibleId !== activeCategory && !clickedRef.current) {
+          if (visibleId && visibleId !== activeCategory) {
             setActiveCategory(visibleId);
           }
         }
@@ -61,36 +60,24 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
     return () => observer.disconnect();
   }, [categories, activeCategory]);
 
-  // Scroll al tab activo SOLO cuando fue clic manual
-  useEffect(() => {
-    if (!tabsRef.current || !clickedRef.current) return;
+  // Cuando el usuario hace clic en una categoría
+  const handleCategoryClick = (categoryId: string) => {
+    if (categoryId === activeCategory || !tabsRef.current) return;
 
-    const activeTabEl = tabsRef.current.querySelector(
-      `.category-tab[data-category="${activeCategory}"]`
+    setActiveCategory(categoryId);
+
+    // Solo hacer scroll horizontal si se hizo clic
+    const tabElement = tabsRef.current.querySelector(
+      `.category-tab[data-category="${categoryId}"]`
     ) as HTMLElement;
 
-    if (activeTabEl) {
-      activeTabEl.scrollIntoView({
+    if (tabElement) {
+      tabElement.scrollIntoView({
         behavior: 'smooth',
         inline: 'center',
         block: 'nearest',
       });
     }
-
-    // Reinicia la bandera de clic manual
-    const timeout = setTimeout(() => {
-      clickedRef.current = false;
-    }, 300);
-
-    return () => clearTimeout(timeout);
-  }, [activeCategory]);
-
-  // Cuando el usuario hace clic en un botón
-  const handleCategoryClick = (categoryId: string) => {
-    if (categoryId === activeCategory) return;
-
-    clickedRef.current = true;
-    setActiveCategory(categoryId);
   };
 
   if (!showTabs) return null;
