@@ -16,7 +16,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ item }) => {
   const isMobile = useIsMobile();
 
   return (
-    <Card className="overflow-hidden border border-gray-100 hover:shadow-md transition-all duration-300 rounded-xl">
+    <Card className="overflow-hidden border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 ease-in-out bg-white">
       <div className="flex flex-row items-start p-4 gap-4">
         {/* Texto del producto */}
         <div className="flex-1">
