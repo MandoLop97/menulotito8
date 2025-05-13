@@ -52,7 +52,7 @@ const RestaurantBanner = () => {
       {/* Banner Image - Altura aumentada para móviles */}
       <div className={`${isMobile ? 'h-60 md:h-72' : 'h-48 md:h-64'} w-full overflow-hidden relative`}>
   <img
-    src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80"
+    src="https://sdmntprwestus2.oaiusercontent.com/files/00000000-aaf8-61f8-bec8-762329e9987f/raw?se=2025-05-13T03%3A13%3A39Z&sp=r&sv=2024-08-04&sr=b&scid=00000000-0000-0000-0000-000000000000&skoid=30ec2761-8f41-44db-b282-7a0f8809659b&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-05-13T02%3A50%3A17Z&ske=2025-05-14T02%3A50%3A17Z&sks=b&skv=2024-08-04&sig=vv3c8muTI%2B2cbfEqptxU2vd8w/NTmrHp/VifLJJsXc0%3D"
     alt="Restaurant Banner"
     className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
   />
@@ -91,7 +91,7 @@ const RestaurantBanner = () => {
     <div className="relative">
   <div className="max-w-4xl mx-auto flex justify-center -mt-12 relative z-30">
   <Avatar className="h-32 w-32 border-4 border-white shadow-lg bg-green-500">
-      <AvatarImage src="/lovable-uploads/25bbe5c3-283a-45eb-9771-53c8950675b8.png" />
+      <AvatarImage src="https://media.istockphoto.com/id/948499484/es/foto/placa-de-una-comida-deliciosa-con-el-chef-cook-perfil-enu.jpg?s=170667a&w=0&k=20&c=Jpw3xAL0EmSY9H4Rv12nFNpc9ME9RBKmEZ9MYBxOwUs=" />
       <AvatarFallback className="text-4xl text-white">M</AvatarFallback>
     </Avatar>
   </div>
