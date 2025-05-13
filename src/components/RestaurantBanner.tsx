@@ -91,7 +91,7 @@ const RestaurantBanner = () => {
     <div className="relative">
   <div className="max-w-4xl mx-auto flex justify-center -mt-12 relative z-30">
   <Avatar className="h-32 w-32 border-4 border-white shadow-lg bg-green-500">
-      <AvatarImage src="https://media.istockphoto.com/id/948499484/es/foto/placa-de-una-comida-deliciosa-con-el-chef-cook-perfil-enu.jpg?s=170667a&w=0&k=20&c=Jpw3xAL0EmSY9H4Rv12nFNpc9ME9RBKmEZ9MYBxOwUs=" />
+      <AvatarImage src="https://lotito.b-cdn.net/Lotito/2b246793-1b64-486e-8791-b50209e21988.png" />
       <AvatarFallback className="text-4xl text-white">M</AvatarFallback>
     </Avatar>
   </div>
