@@ -1,4 +1,3 @@
-
 import { useRef, useEffect, useState } from 'react';
 import { Category } from '@/lib/types';
 import { ScrollArea } from './ui/scroll-area';
@@ -21,12 +20,10 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
   const [preventTabScroll, setPreventTabScroll] = useState(false);
   const isMobile = useIsMobile();
 
-  // Scroll to active tab when active category changes, but with improved control
   useEffect(() => {
     if (tabsRef.current && activeCategory && !preventTabScroll) {
       const activeTabEl = tabsRef.current.querySelector(`.category-tab[data-category="${activeCategory}"]`);
       if (activeTabEl) {
-        // Using scrollIntoView with a more controlled approach
         activeTabEl.scrollIntoView({
           behavior: 'smooth',
           block: 'nearest',
@@ -39,13 +36,8 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
   const handleCategoryClick = (categoryId: string) => {
     if (categoryId === activeCategory) return;
 
-    // Prevent the tab from auto-scrolling due to the active category change we're making
     setPreventTabScroll(true);
-
-    // Set the active category
     setActiveCategory(categoryId);
-
-    // Reset prevention after scrolling should be complete
     setTimeout(() => {
       setPreventTabScroll(false);
     }, 1000);
@@ -63,8 +55,8 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
       }`}
     >
       <div className="relative max-w-7xl mx-auto px-4 animate-fade-in">
-        {/* Modified ScrollArea component with scrollbar-hide class */}
-        <ScrollArea className="w-full overflow-hidden scrollbar-hide" orientation="horizontal">
+        {/* Updated ScrollArea with proper overflow handling */}
+        <ScrollArea className="w-full overflow-x-auto overflow-y-hidden scrollbar-hide" orientation="horizontal">
           <div ref={tabsRef} className="flex gap-4 px-1">
             {categories.map(category => (
               <button
@@ -85,11 +77,9 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
             ))}
           </div>
         </ScrollArea>
-        
-        {/* Fade effect left */}
+
+        {/* Fade effects */}
         <div className="absolute left-0 top-0 h-full w-8 bg-gradient-to-r from-white to-transparent pointer-events-none z-10" />
-        
-        {/* Fade effect right */}
         <div className="absolute right-0 top-0 h-full w-8 bg-gradient-to-l from-white to-transparent pointer-events-none z-10" />
       </div>
     </div>
@@ -97,3 +87,4 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
 };
 
 export default CategoryTabs;
+
