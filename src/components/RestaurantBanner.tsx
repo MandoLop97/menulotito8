@@ -60,18 +60,18 @@ const RestaurantBanner = () => {
 
   return (
     <div className="restaurant-banner relative mb-4">
-      {/* Banner principal */}
-      <div className={`${isMobile ? 'h-72' : 'h-[22rem]'} w-full overflow-hidden relative rounded-b-2xl`}>
+      {/* Banner ajustado */}
+      <div className="w-full md:max-w-4xl md:mx-auto overflow-hidden relative h-72 md:h-[22rem] md:rounded-b-2xl">
         <img
           src="https://lotito.b-cdn.net/Lotito/ChatGPT+Image+12+may+2025%2C+22_22_02.png"
           alt="Restaurant Banner"
           className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
         />
 
-        {/* Gradiente elegante */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/10 to-transparent pointer-events-none z-10" />
+        {/* Gradiente 55% abajo */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent pointer-events-none z-10" />
 
-        {/* Botones flotantes */}
+        {/* Botones */}
         <div className="absolute top-4 right-4 flex gap-2 z-20">
           <button
             className="bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-sm hover:bg-white transition"
@@ -97,7 +97,7 @@ const RestaurantBanner = () => {
         </div>
       </div>
 
-      {/* Avatar destacado */}
+      {/* Avatar */}
       <div className="relative">
         <div className="max-w-4xl mx-auto flex justify-center -mt-14 relative z-30">
           <Avatar className="h-28 w-28 border-4 border-white shadow-md bg-white">
@@ -107,7 +107,7 @@ const RestaurantBanner = () => {
         </div>
       </div>
 
-      {/* Diálogo: Horarios */}
+      {/* Diálogos reutilizados */}
       <Dialog open={showHours} onOpenChange={setShowHours}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
@@ -127,7 +127,6 @@ const RestaurantBanner = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Diálogo: Ubicación */}
       <Dialog open={showLocation} onOpenChange={setShowLocation}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
@@ -155,7 +154,6 @@ const RestaurantBanner = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Diálogo: Compartir */}
       <Dialog open={showShare} onOpenChange={setShowShare}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
