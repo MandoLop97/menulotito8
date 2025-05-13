@@ -52,7 +52,7 @@ const RestaurantBanner = () => {
       {/* Banner Image - Altura aumentada para móviles */}
       <div className={`${isMobile ? 'h-60 md:h-72' : 'h-48 md:h-64'} w-full overflow-hidden relative`}>
   <img
-    src="https://lotito.b-cdn.net/Lotito/Diseño+sin+título+(1).png"
+    src="https://lotito.b-cdn.net/Lotito/ChatGPT+Image+12+may+2025%2C+22_22_02.png"
     alt="Restaurant Banner"
     className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
   />
