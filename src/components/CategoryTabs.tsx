@@ -19,7 +19,7 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
   const [showTabs, setShowTabs] = useState(false);
   const isMobile = useIsMobile();
 
-  // Mostrar el menú de categorías en cuanto el bloque de menú entra al viewport
+  // ✅ Mostrar los tabs cuando #menu-start entra al viewport
   useEffect(() => {
     const section = document.getElementById('menu-start');
     if (!section) return;
@@ -30,7 +30,7 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
       },
       {
         root: null,
-        threshold: 0.01, // detecta tan pronto entra al viewport
+        threshold: 0.01, // se activa apenas toca el viewport
       }
     );
 
@@ -39,7 +39,7 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
     return () => observer.disconnect();
   }, []);
 
-  // Scroll hacia tab activo solo cuando fue por clic
+  // Solo scroll animado cuando el cambio fue por clic
   useEffect(() => {
     if (!tabsRef.current || !preventTabScroll) return;
 
@@ -88,6 +88,7 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
                   onClick={() => handleCategoryClick(category.id)}
                 >
                   {category.name}
+                  {/* Indicador azul con transición por visibilidad */}
                   <div
                     className={`absolute bottom-0 left-0 w-full h-1 bg-navy-700 rounded-t-sm transform-gpu transition-opacity duration-300 ${
                       isActive ? 'opacity-100' : 'opacity-0'

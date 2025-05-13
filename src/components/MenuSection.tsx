@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect } from 'react';
 import { MenuItem as MenuItemType } from '@/lib/types';
 import MenuItem from './MenuItem';
@@ -9,21 +8,21 @@ interface MenuSectionProps {
   categoryName: string;
   items: MenuItemType[];
   isActive: boolean;
-  anchorId?: string;
+  anchorId?: string; // ✅ Nueva prop opcional para marcar sección
 }
 
 const MenuSection: React.FC<MenuSectionProps> = ({
   categoryId,
   categoryName,
   items,
-  isActive
+  isActive,
+  anchorId // ✅ Lo incluimos aquí
 }) => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
   const hasScrolledRef = useRef<boolean>(false);
   
   useEffect(() => {
-    // Set a better scroll-margin-top to account for the sticky header and category tabs
     if (sectionRef.current) {
       sectionRef.current.style.scrollMarginTop = '120px';
     }
@@ -31,7 +30,7 @@ const MenuSection: React.FC<MenuSectionProps> = ({
 
   return (
     <div 
-      id={`category-${categoryId}`} 
+      id={anchorId || `category-${categoryId}`} // ✅ Usamos anchorId si está presente
       ref={sectionRef} 
       className={`py-6 scroll-mt-24 transition-all duration-300 ${isActive ? 'bg-gray-50' : ''}`}
       data-category-section={categoryId}
