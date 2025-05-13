@@ -48,7 +48,7 @@ const RestaurantBanner = () => {
   };
   
   return (
-    <div className="restaurant-banner relative mb-20">
+    <div className="restaurant-banner relative mb-16">
       {/* Banner Image - Altura aumentada para móviles */}
       <div className={`${isMobile ? 'h-60 md:h-72' : 'h-48 md:h-64'} w-full overflow-hidden rounded-lg`}>
         <img
@@ -84,16 +84,12 @@ const RestaurantBanner = () => {
       </div>
       
       {/* Profile avatar - positioned to overlap the banner and content */}
-      <div className="relative">
-  {/* Aquí va tu avatar */}
-  <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-12 animate-fade-in">
-    <Avatar className="h-24 w-24 border-4 border-white shadow-lg bg-green-500">
-      <AvatarImage src="/lovable-uploads/25bbe5c3-283a-45eb-9771-53c8950675b8.png" />
-      <AvatarFallback className="text-4xl text-white">M</AvatarFallback>
-    </Avatar>
-  </div>
-</div>
-
+      <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-12 animate-fade-in">
+        <Avatar className="h-24 w-24 border-4 border-white shadow-lg bg-green-500">
+          <AvatarImage src="/lovable-uploads/25bbe5c3-283a-45eb-9771-53c8950675b8.png" />
+          <AvatarFallback className="text-4xl text-white">M</AvatarFallback>
+        </Avatar>
+      </div>
       
       {/* Business Hours Dialog */}
       <Dialog open={showHours} onOpenChange={setShowHours}>
