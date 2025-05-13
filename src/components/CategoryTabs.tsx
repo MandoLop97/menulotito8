@@ -17,6 +17,7 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
   const tabsRef = useRef<HTMLDivElement>(null);
   const [preventTabScroll, setPreventTabScroll] = useState(false);
   const [showTabs, setShowTabs] = useState(false);
+  const clickedRef = useRef(false); // ✅ Saber si fue por clic
   const isMobile = useIsMobile();
 
   // Mostrar los tabs después de cierto scroll
@@ -30,42 +31,40 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-
   // Detectar en qué sección está el usuario y actualizar activeCategory automáticamente
-useEffect(() => {
-  const sectionElements = categories.map(category =>
-    document.getElementById(`category-${category.id}`)
-  ).filter(Boolean) as HTMLElement[];
-
-  if (sectionElements.length === 0) return;
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      const visibleEntries = entries
-        .filter(entry => entry.isIntersecting)
-        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-
-      if (visibleEntries.length > 0) {
-        const visibleId = visibleEntries[0].target.getAttribute('data-category-section');
-        if (visibleId && visibleId !== activeCategory) {
-          setActiveCategory(visibleId);
-        }
-      }
-    },
-    {
-      root: null,
-      threshold: 0.4 // Puedes ajustar este valor si se activa muy rápido o tarde
-    }
-  );
-
-  sectionElements.forEach((el) => observer.observe(el));
-  return () => observer.disconnect();
-}, [categories]); 
-
-
-  // Scroll animado solo si el tab no está completamente visible
   useEffect(() => {
-    if (!tabsRef.current || !preventTabScroll) return;
+    const sectionElements = categories.map(category =>
+      document.getElementById(`category-${category.id}`)
+    ).filter(Boolean) as HTMLElement[];
+
+    if (sectionElements.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleEntries = entries
+          .filter(entry => entry.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+
+        if (visibleEntries.length > 0) {
+          const visibleId = visibleEntries[0].target.getAttribute('data-category-section');
+          if (visibleId && visibleId !== activeCategory) {
+            setActiveCategory(visibleId);
+          }
+        }
+      },
+      {
+        root: null,
+        threshold: 0.4
+      }
+    );
+
+    sectionElements.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [categories]);
+
+  // Scroll animado horizontal solo si fue clic del usuario
+  useEffect(() => {
+    if (!tabsRef.current || !preventTabScroll || !clickedRef.current) return;
 
     const activeTabEl = tabsRef.current.querySelector(
       `.category-tab[data-category="${activeCategory}"]`
@@ -93,11 +92,13 @@ useEffect(() => {
   const handleCategoryClick = (categoryId: string) => {
     if (categoryId === activeCategory) return;
 
+    clickedRef.current = true; // ✅ Marcar que fue clic
     setPreventTabScroll(true);
     setActiveCategory(categoryId);
 
     setTimeout(() => {
       setPreventTabScroll(false);
+      clickedRef.current = false;
     }, 500);
   };
 
