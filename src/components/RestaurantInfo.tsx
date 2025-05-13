@@ -5,7 +5,7 @@ import { Separator } from "@/components/ui/separator";
 const RestaurantInfo = () => {
   return (
     <div className="text-center mb-6 animate-fade-in">
-      <h1 className="text-2xl font-bold text-navy-800 mt-2">Menú de Ejemplo</h1>
+      <h1 className="text-2xl font-bold text-navy-800 mt-0">Menú de Ejemplo</h1>
       
       <div className="flex justify-center gap-2 mt-3 mb-4">
         <Badge variant="outline" className="bg-green-50 text-green-700 hover:bg-green-100 transition-colors">A domicilio</Badge>
