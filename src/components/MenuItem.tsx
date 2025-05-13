@@ -41,14 +41,16 @@ const MenuItem: React.FC<MenuItemProps> = ({ item }) => {
           </div>
 
           <Button
-            onClick={() => addItem(item)}
-            size="sm"
-            variant="default"
-            className="bg-orange-500 hover:bg-orange-600 rounded-full w-9 h-9 p-0 absolute bottom-2 right-2 shadow-lg border-2 border-white transition-transform hover:scale-110"
-            aria-label="Añadir al pedido"
-          >
-            <PlusCircle className="h-5 w-5" />
-          </Button>
+  onClick={() => addItem(item)}
+  size="icon"
+  variant="default"
+  className="bg-orange-500 hover:bg-orange-600 text-white rounded-full w-10 h-10 p-0 absolute bottom-2 right-2 shadow-lg border-2 border-white 
+             transition-transform duration-200 hover:scale-110 active:scale-95 focus:ring-2 focus:ring-orange-300"
+  aria-label="Añadir al pedido"
+>
+  <PlusCircle className="h-5 w-5" strokeWidth={2.2} />
+</Button>
+
         </div>
       </div>
     </Card>
