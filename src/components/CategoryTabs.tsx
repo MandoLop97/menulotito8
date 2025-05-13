@@ -42,7 +42,7 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
   };
 
   return (
-    <div className={`bg-white sticky ${isMobile ? 'top-12' : 'top-16'} z-30 border-b border-gray-200 shadow-sm`}>
+    <div className={`bg-white sticky ${isMobile ? 'top-0' : 'top-[68px]'} z-30 border-b border-gray-200 shadow-sm`}>
       <div className="relative max-w-7xl mx-auto px-4 animate-fade-in">
         {/* Updated ScrollArea with proper overflow handling */}
         <ScrollArea className="w-full overflow-x-auto overflow-y-hidden scrollbar-hide" orientation="horizontal">
