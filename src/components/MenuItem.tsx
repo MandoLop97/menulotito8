@@ -7,6 +7,7 @@ import { formatCurrency } from '@/lib/utils';
 import { Card, CardContent } from './ui/card';
 import { AspectRatio } from './ui/aspect-ratio';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { ShoppingCart } from 'lucide-react';
 
 interface MenuItemProps {
   item: MenuItemType;
@@ -43,12 +44,13 @@ const MenuItem: React.FC<MenuItemProps> = ({ item }) => {
           <Button
   onClick={() => addItem(item)}
   size="icon"
-  variant="default"
-  className="bg-orange-500 hover:bg-orange-600 text-white rounded-full w-10 h-10 p-0 absolute bottom-2 right-2 shadow-lg border-2 border-white 
-             transition-transform duration-200 hover:scale-110 active:scale-95 focus:ring-2 focus:ring-orange-300"
-  aria-label="Añadir al pedido"
+  className="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-full w-12 h-12 shadow-md border-2 border-white hover:scale-105 transition-all duration-200 active:scale-95 focus:ring-2 focus:ring-blue-300 relative"
+  aria-label="Añadir al carrito"
 >
-  <PlusCircle className="h-5 w-5" strokeWidth={2.2} />
+  <ShoppingCart className="h-5 w-5" />
+  <div className="absolute top-0 right-0 bg-white text-blue-600 rounded-full text-xs font-bold w-4 h-4 flex items-center justify-center border border-blue-600">
+    +
+  </div>
 </Button>
 
         </div>
