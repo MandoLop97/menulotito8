@@ -1,10 +1,9 @@
 import React from 'react';
-import { ShoppingCart } from 'lucide-react';
 import { Button } from './ui/button';
 import { MenuItem as MenuItemType } from '@/lib/types';
 import { useCart } from '@/context/CartContext';
 import { formatCurrency } from '@/lib/utils';
-import { Card, CardContent } from './ui/card';
+import { Card } from './ui/card';
 import { AspectRatio } from './ui/aspect-ratio';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -28,7 +27,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ item }) => {
           </p>
         </div>
 
-        {/* Imagen del producto con botón dentro */}
+        {/* Imagen del producto con botón */}
         <div className="relative w-28 shrink-0">
           <div className="overflow-hidden rounded-lg border border-gray-200 shadow-sm">
             <AspectRatio ratio={1 / 1} className="bg-gray-50">
@@ -40,16 +39,15 @@ const MenuItem: React.FC<MenuItemProps> = ({ item }) => {
             </AspectRatio>
           </div>
 
-          {/* Botón dentro de la imagen */}
+          {/* Botón "+" estilo moderno dentro de la imagen */}
           <Button
-  onClick={() => addItem(item)}
-  size="icon"
-  className="absolute bottom-1 right-1 w-9 h-9 p-0 rounded-xl bg-gradient-to-br from-black to-white text-black shadow-md hover:scale-105 active:scale-95 transition-transform duration-200"
-  aria-label="Añadir al carrito"
->
-  <span className="text-lg font-bold leading-none">+</span>
-</Button>
-
+            onClick={() => addItem(item)}
+            size="icon"
+            className="absolute bottom-1 right-1 w-9 h-9 p-0 rounded-full bg-gradient-to-br from-pink-600 via-pink-500 to-purple-600 text-white shadow-md hover:scale-105 active:scale-95 transition-transform duration-200"
+            aria-label="Añadir al carrito"
+          >
+            <span className="text-lg font-bold leading-none">+</span>
+          </Button>
         </div>
       </div>
     </Card>
