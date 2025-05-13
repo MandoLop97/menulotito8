@@ -19,10 +19,10 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
   const [showTabs, setShowTabs] = useState(false);
   const isMobile = useIsMobile();
 
-  // Scrollspy to show the category tabs after passing a threshold
+  // Mostrar los tabs después de cierto scroll
   useEffect(() => {
     const handleScroll = () => {
-      const scrollThreshold = 300; // ajusta este valor según el tamaño del banner/avatar
+      const scrollThreshold = 300;
       setShowTabs(window.scrollY > scrollThreshold);
     };
 
@@ -30,31 +30,33 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Scroll into view for active tab
+  // Solo scroll animado cuando el cambio fue por clic
   useEffect(() => {
-    if (tabsRef.current && activeCategory && !preventTabScroll) {
-      const activeTabEl = tabsRef.current.querySelector(`.category-tab[data-category="${activeCategory}"]`);
-      if (activeTabEl) {
-        activeTabEl.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest',
-          inline: 'center'
-        });
-      }
+    if (!tabsRef.current || !preventTabScroll) return;
+
+    const activeTabEl = tabsRef.current.querySelector(
+      `.category-tab[data-category="${activeCategory}"]`
+    );
+    if (activeTabEl) {
+      activeTabEl.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'center'
+      });
     }
-  }, [activeCategory, preventTabScroll]);
+  }, [preventTabScroll]);
 
   const handleCategoryClick = (categoryId: string) => {
     if (categoryId === activeCategory) return;
 
     setPreventTabScroll(true);
     setActiveCategory(categoryId);
+
     setTimeout(() => {
       setPreventTabScroll(false);
-    }, 1000);
+    }, 500);
   };
 
-  // 🔒 No mostrar hasta que se haga scroll suficiente
   if (!showTabs) return null;
 
   return (
@@ -62,23 +64,30 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
       <div className="relative max-w-7xl mx-auto px-4">
         <ScrollArea className="w-full overflow-x-auto overflow-y-hidden scrollbar-hide" orientation="horizontal">
           <div ref={tabsRef} className="flex gap-4 px-1 py-1">
-            {categories.map(category => (
-              <button
-                key={category.id}
-                data-category={category.id}
-                className={`category-tab relative whitespace-nowrap px-4 py-3 font-medium text-sm transition-all duration-300 rounded-md will-change-transform ${
-                  activeCategory === category.id
-                    ? 'text-navy-800 font-semibold bg-gray-50'
-                    : 'text-gray-600 hover:text-navy-700 hover:bg-gray-50/50'
-                }`}
-                onClick={() => handleCategoryClick(category.id)}
-              >
-                {category.name}
-                {activeCategory === category.id && (
-                  <div className="absolute bottom-0 left-0 w-full h-1 bg-navy-700 rounded-t-sm transform-gpu"></div>
-                )}
-              </button>
-            ))}
+            {categories.map(category => {
+              const isActive = activeCategory === category.id;
+
+              return (
+                <button
+                  key={category.id}
+                  data-category={category.id}
+                  className={`category-tab relative whitespace-nowrap px-4 py-3 font-medium text-sm transition-all duration-300 rounded-md will-change-transform ${
+                    isActive
+                      ? 'text-navy-800 font-semibold bg-gray-50'
+                      : 'text-gray-600 hover:text-navy-700 hover:bg-gray-50/50'
+                  }`}
+                  onClick={() => handleCategoryClick(category.id)}
+                >
+                  {category.name}
+                  {/* Indicador azul con transición por visibilidad */}
+                  <div
+                    className={`absolute bottom-0 left-0 w-full h-1 bg-navy-700 rounded-t-sm transform-gpu transition-opacity duration-300 ${
+                      isActive ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  ></div>
+                </button>
+              );
+            })}
           </div>
         </ScrollArea>
 
