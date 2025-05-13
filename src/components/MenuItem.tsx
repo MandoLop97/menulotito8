@@ -42,18 +42,14 @@ const MenuItem: React.FC<MenuItemProps> = ({ item }) => {
 
           {/* Botón dentro de la imagen */}
           <Button
-            onClick={() => addItem(item)}
-            size="icon"
-            className="absolute bottom-1 right-1 w-9 h-9 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md border-2 border-white hover:scale-110 active:scale-95 transition-transform duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
-            aria-label="Añadir al carrito"
-          >
-            <div className="relative w-full h-full flex items-center justify-center">
-              <ShoppingCart className="h-4 w-4" />
-              <span className="absolute -top-1 -right-1 bg-white text-blue-600 text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center border border-blue-600">
-                +
-              </span>
-            </div>
-          </Button>
+  onClick={() => addItem(item)}
+  size="icon"
+  className="absolute bottom-1 right-1 w-9 h-9 p-0 rounded-xl bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 text-white shadow-md hover:scale-105 active:scale-95 transition-transform duration-200"
+  aria-label="Añadir al carrito"
+>
+  <span className="text-lg font-bold leading-none">+</span>
+</Button>
+
         </div>
       </div>
     </Card>
