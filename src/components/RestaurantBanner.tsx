@@ -48,84 +48,83 @@ const RestaurantBanner = () => {
   };
   
   return (
-    <div className="restaurant-banner relative mb-4">
-      {/* Banner Image - Altura aumentada para móviles */}
-      <div className={`${isMobile ? 'h-60 md:h-72' : 'h-48 md:h-64'} w-full overflow-hidden`}>
+    <div className="restaurant-banner relative mb-8 animate-fade-in">
+      {/* Banner Image with enhanced styling */}
+      <div className={`${isMobile ? 'h-64 md:h-72' : 'h-52 md:h-64'} w-full overflow-hidden relative`}>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-black/40 z-10"></div>
         <img
           src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80"
           alt="Restaurant Banner"
-          className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
         />
         
-        {/* Action buttons */}
-        <div className="absolute top-4 right-4 flex gap-2">
+        {/* Action buttons with enhanced styling */}
+        <div className="absolute top-4 right-4 flex gap-2 z-20">
           <button 
-            className="bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition-colors"
+            className="bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-md hover:bg-white transition-colors transform hover:scale-105 transition-all duration-300"
             onClick={() => setShowHours(true)}
             aria-label="Ver horarios"
           >
-            <Clock className="h-5 w-5 text-gray-700" />
+            <Clock className="h-5 w-5 text-navy-800" />
           </button>
           <button 
-            className="bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition-colors"
+            className="bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-md hover:bg-white transition-colors transform hover:scale-105 transition-all duration-300"
             onClick={() => setShowLocation(true)}
             aria-label="Ver ubicación"
           >
-            <MapPin className="h-5 w-5 text-gray-700" />
+            <MapPin className="h-5 w-5 text-navy-800" />
           </button>
           <button 
-            className="bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition-colors"
+            className="bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-md hover:bg-white transition-colors transform hover:scale-105 transition-all duration-300"
             onClick={() => setShowShare(true)}
             aria-label="Compartir"
           >
-            <Share2 className="h-5 w-5 text-gray-700" />
+            <Share2 className="h-5 w-5 text-navy-800" />
           </button>
         </div>
       </div>
       
-      {/* Profile avatar - positioned to overlap the banner and content */}
-    <div className="relative">
-  <div className="max-w-4xl mx-auto flex justify-center -mt-12">
-    <Avatar className="h-32 w-32 border-4 border-white shadow-lg bg-green-500">
-      <AvatarImage src="/lovable-uploads/25bbe5c3-283a-45eb-9771-53c8950675b8.png" />
-      <AvatarFallback className="text-4xl text-white">M</AvatarFallback>
-    </Avatar>
-  </div>
-</div>
-
-
+      {/* Profile avatar - enhanced styling and size */}
+      <div className="relative">
+        <div className="max-w-4xl mx-auto flex justify-center -mt-16">
+          <Avatar className="h-36 w-36 border-4 border-white shadow-elegant bg-green-500 animate-pulse-subtle">
+            <AvatarImage src="/lovable-uploads/25bbe5c3-283a-45eb-9771-53c8950675b8.png" className="object-cover" />
+            <AvatarFallback className="text-5xl text-white font-display">M</AvatarFallback>
+          </Avatar>
+        </div>
+      </div>
       
-      {/* Business Hours Dialog */}
+      {/* Business Hours Dialog - enhanced styling */}
       <Dialog open={showHours} onOpenChange={setShowHours}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md rounded-xl">
           <DialogHeader>
-            <DialogTitle className="text-xl font-semibold text-center">Horario</DialogTitle>
+            <DialogTitle className="text-xl font-display text-center">Horario</DialogTitle>
           </DialogHeader>
           <div className="py-2">
             {businessHours.map((item) => (
-              <div key={item.day} className="flex justify-between py-2 border-b last:border-b-0">
+              <div key={item.day} className="flex justify-between py-2 border-b last:border-b-0 hover:bg-gray-50 px-2 rounded-md transition-colors">
                 <div className="font-medium">{item.day}</div>
                 <div className="text-gray-600">{item.hours}</div>
               </div>
             ))}
           </div>
-          <Button onClick={() => setShowHours(false)} className="w-full mt-4">
+          <Button onClick={() => setShowHours(false)} className="w-full mt-4 rounded-xl font-medium bg-navy-800 hover:bg-navy-700">
             Cerrar
           </Button>
         </DialogContent>
       </Dialog>
       
-      {/* Location Dialog */}
+      {/* Location Dialog - enhanced styling */}
       <Dialog open={showLocation} onOpenChange={setShowLocation}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md rounded-xl">
           <DialogHeader>
-            <DialogTitle className="text-xl font-semibold text-center">Ubicación</DialogTitle>
+            <DialogTitle className="text-xl font-display text-center">Ubicación</DialogTitle>
           </DialogHeader>
           <div className="py-4">
-            <p className="text-gray-700 mb-6">{location.address}</p>
+            <p className="text-gray-700 mb-6 text-center">{location.address}</p>
             <div className="flex gap-4 flex-col sm:flex-row">
               <Button 
-                className="flex-1"
+                className="flex-1 rounded-xl font-medium bg-navy-800 hover:bg-navy-700"
                 onClick={() => window.open(location.mapUrl, '_blank')}
               >
                 <ExternalLink className="mr-2 h-4 w-4" />
@@ -133,7 +132,7 @@ const RestaurantBanner = () => {
               </Button>
               <Button 
                 variant="outline" 
-                className="flex-1"
+                className="flex-1 rounded-xl font-medium"
                 onClick={() => setShowLocation(false)}
               >
                 Cerrar
@@ -143,11 +142,11 @@ const RestaurantBanner = () => {
         </DialogContent>
       </Dialog>
       
-      {/* Share Dialog */}
+      {/* Share Dialog - enhanced styling */}
       <Dialog open={showShare} onOpenChange={setShowShare}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md rounded-xl">
           <DialogHeader>
-            <DialogTitle className="text-xl font-semibold text-center">Compartir</DialogTitle>
+            <DialogTitle className="text-xl font-display text-center">Compartir</DialogTitle>
             <DialogDescription className="text-center">
               Comparte este menú en tus redes sociales
             </DialogDescription>
@@ -157,7 +156,7 @@ const RestaurantBanner = () => {
               <Button
                 key={option.name}
                 variant="outline"
-                className="flex items-center justify-center gap-2"
+                className="flex items-center justify-center gap-2 rounded-xl hover:bg-gray-50 hover:text-navy-800 transition-all duration-300"
                 onClick={() => handleShare(option)}
               >
                 {option.name}
@@ -166,7 +165,7 @@ const RestaurantBanner = () => {
           </div>
           <Button 
             variant="secondary" 
-            className="w-full mt-2"
+            className="w-full mt-2 rounded-xl font-medium bg-navy-800 text-white hover:bg-navy-700"
             onClick={handleCopyLink}
           >
             Copiar enlace

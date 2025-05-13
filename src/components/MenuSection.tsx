@@ -32,15 +32,15 @@ const MenuSection: React.FC<MenuSectionProps> = ({
     <div 
       id={`category-${categoryId}`} 
       ref={sectionRef} 
-      className={`py-6 scroll-mt-24 transition-all duration-300 ${isActive ? 'bg-gray-50' : ''}`}
+      className={`py-8 scroll-mt-24 transition-all duration-500 ${isActive ? 'bg-gradient-to-r from-gray-50 to-white' : ''}`}
       data-category-section={categoryId}
     >
-      <h2 className="text-xl font-bold mb-5 text-navy-800 border-b pb-2">{categoryName}</h2>
-      <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-2'} gap-4`}>
+      <h2 className="text-2xl font-display font-bold mb-6 text-gradient border-b pb-3">{categoryName}</h2>
+      <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-2'} gap-6`}>
         {items.map((item, index) => (
           <div 
             key={item.id} 
-            className="opacity-0 animate-fade-in" 
+            className="opacity-0 animate-fade-in hover-lift" 
             style={{
               animationDelay: `${index * 0.05}s`,
               animationFillMode: 'forwards'
