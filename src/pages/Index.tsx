@@ -16,10 +16,10 @@ const Index = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [userScrolling, setUserScrolling] = useState(false);
   const [manualCategoryChange, setManualCategoryChange] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false); // Estado para controlar la visibilidad del menú
+  const [isScrolled, setIsScrolled] = useState(false);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
-  const scrollThresholdRef = useRef(200); // Umbral para mostrar el menú
+  const scrollThresholdRef = useRef(150); // Reducimos el umbral para que aparezca antes
   const isMobile = useIsMobile();
   
   useEffect(() => {
@@ -42,8 +42,11 @@ const Index = () => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
       
-      // Actualizar el estado de scroll para mostrar/ocultar las categorías
-      setIsScrolled(scrollY > scrollThresholdRef.current);
+      // Usamos la función de setState con callback para evitar actualizaciones innecesarias
+      setIsScrolled(prevScrolled => {
+        const shouldBeScrolled = scrollY > scrollThresholdRef.current;
+        return prevScrolled !== shouldBeScrolled ? shouldBeScrolled : prevScrolled;
+      });
       
       setUserScrolling(true);
       
@@ -149,7 +152,7 @@ const Index = () => {
           categories={menuCategories} 
           activeCategory={activeCategory} 
           setActiveCategory={handleCategoryChange}
-          isScrolled={isScrolled} // Pasamos el estado de scroll
+          isScrolled={isScrolled}
         />
         
         <main className={`menu-container ${isMobile ? 'px-2' : 'px-4'} ${isMobile ? 'pb-28' : 'pb-20'} prevent-scroll-reset`}>
