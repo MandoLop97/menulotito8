@@ -19,7 +19,7 @@ const Index = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
-  const scrollThresholdRef = useRef(150); // Reducimos el umbral para que aparezca antes
+  const scrollThresholdRef = useRef(120); // Reducido para mejor respuesta
   const isMobile = useIsMobile();
   
   useEffect(() => {
@@ -152,10 +152,9 @@ const Index = () => {
           categories={menuCategories} 
           activeCategory={activeCategory} 
           setActiveCategory={handleCategoryChange}
-          isScrolled={isScrolled}
         />
         
-        <main className={`menu-container ${isMobile ? 'px-2' : 'px-4'} ${isMobile ? 'pb-28' : 'pb-20'} prevent-scroll-reset`}>
+        <main className={`menu-container ${isMobile ? 'px-2' : 'px-4'} ${isMobile ? 'pb-28' : 'pb-20'} prevent-scroll-reset mt-4`}>
           {menuCategories.map((category) => {
             const categoryItems = menuItems.filter(
               (item) => item.category === category.id
