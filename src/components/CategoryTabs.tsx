@@ -7,14 +7,12 @@ interface CategoryTabsProps {
   categories: Category[];
   activeCategory: string;
   setActiveCategory: (categoryId: string) => void;
-  isScrolled: boolean;
 }
 
 const CategoryTabs: React.FC<CategoryTabsProps> = ({
   categories,
   activeCategory,
-  setActiveCategory,
-  isScrolled
+  setActiveCategory
 }) => {
   const tabsRef = useRef<HTMLDivElement>(null);
   const [preventTabScroll, setPreventTabScroll] = useState(false);
@@ -43,17 +41,8 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
     }, 1000);
   };
 
-  // Si no hay scroll, no mostramos la barra de categorías
-  if (!isScrolled) {
-    return null;
-  }
-
   return (
-    <div 
-      className={`bg-white fixed left-0 right-0 z-30 border-b border-gray-200 shadow-sm transition-all duration-300 ${
-        isMobile ? 'top-[68px]' : 'top-[68px]'
-      }`}
-    >
+    <div className={`bg-white sticky ${isMobile ? 'top-12' : 'top-16'} z-30 border-b border-gray-200 shadow-sm`}>
       <div className="relative max-w-7xl mx-auto px-4 animate-fade-in">
         {/* Updated ScrollArea with proper overflow handling */}
         <ScrollArea className="w-full overflow-x-auto overflow-y-hidden scrollbar-hide" orientation="horizontal">
@@ -62,7 +51,7 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
               <button
                 key={category.id}
                 data-category={category.id}
-                className={`category-tab relative whitespace-nowrap px-3 py-4 font-medium text-sm transition-colors duration-200 ${
+                className={`category-tab relative whitespace-nowrap px-3 py-4 font-medium text-sm transition-all duration-300 ${
                   activeCategory === category.id
                     ? 'text-navy-800 font-semibold'
                     : 'text-gray-600 hover:text-navy-700'
@@ -71,7 +60,7 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
               >
                 {category.name}
                 {activeCategory === category.id && (
-                  <div className="absolute bottom-0 left-0 w-full h-1 bg-navy-700 rounded-t-sm transform-gpu will-change-transform"></div>
+                  <div className="absolute bottom-0 left-0 w-full h-1 bg-navy-700 rounded-t-sm"></div>
                 )}
               </button>
             ))}
@@ -87,4 +76,3 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
 };
 
 export default CategoryTabs;
-
