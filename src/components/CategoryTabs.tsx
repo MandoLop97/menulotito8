@@ -1,4 +1,3 @@
-
 import { useRef, useEffect, useState } from 'react';
 import { Category } from '@/lib/types';
 import { ScrollArea } from './ui/scroll-area';
@@ -61,10 +60,10 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
   if (!showTabs) return null;
 
   return (
-    <div className={`bg-white/90 backdrop-blur-md sticky ${isMobile ? 'top-0' : 'top-[68px]'} z-30 border-b border-gray-200 shadow-elegant will-change-transform animate-scale-in`}>
+    <div className={`bg-white sticky ${isMobile ? 'top-0' : 'top-[68px]'} z-30 border-b border-gray-200 shadow-sm will-change-transform animate-fade-in`}>
       <div className="relative max-w-7xl mx-auto px-4">
         <ScrollArea className="w-full overflow-x-auto overflow-y-hidden scrollbar-hide" orientation="horizontal">
-          <div ref={tabsRef} className="flex gap-4 px-1 py-2">
+          <div ref={tabsRef} className="flex gap-4 px-1 py-1">
             {categories.map(category => {
               const isActive = activeCategory === category.id;
 
@@ -72,18 +71,18 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
                 <button
                   key={category.id}
                   data-category={category.id}
-                  className={`category-tab relative whitespace-nowrap px-4 py-3 font-medium text-sm transition-all duration-300 rounded-xl will-change-transform ${
+                  className={`category-tab relative whitespace-nowrap px-4 py-3 font-medium text-sm transition-all duration-300 rounded-md will-change-transform ${
                     isActive
-                      ? 'text-navy-800 font-semibold bg-gray-50 shadow-sm'
+                      ? 'text-navy-800 font-semibold bg-gray-50'
                       : 'text-gray-600 hover:text-navy-700 hover:bg-gray-50/50'
                   }`}
                   onClick={() => handleCategoryClick(category.id)}
                 >
-                  <span className={isActive ? 'text-gradient' : ''}>{category.name}</span>
+                  {category.name}
                   {/* Indicador azul con transición por visibilidad */}
                   <div
-                    className={`absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-navy-700 to-navy-800 rounded-t-sm transform-gpu transition-all duration-400 ${
-                      isActive ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0'
+                    className={`absolute bottom-0 left-0 w-full h-1 bg-navy-700 rounded-t-sm transform-gpu transition-opacity duration-400 ${
+                      isActive ? 'opacity-100' : 'opacity-0'
                     }`}
                   ></div>
                 </button>
@@ -93,8 +92,8 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
         </ScrollArea>
 
         {/* Fade effects */}
-        <div className="absolute left-0 top-0 h-full w-12 bg-gradient-to-r from-white via-white/90 to-transparent pointer-events-none z-10" />
-        <div className="absolute right-0 top-0 h-full w-12 bg-gradient-to-l from-white via-white/90 to-transparent pointer-events-none z-10" />
+        <div className="absolute left-0 top-0 h-full w-12 bg-gradient-to-r from-white via-white to-transparent pointer-events-none z-10" />
+        <div className="absolute right-0 top-0 h-full w-12 bg-gradient-to-l from-white via-white to-transparent pointer-events-none z-10" />
       </div>
     </div>
   );
