@@ -21,7 +21,7 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
   // Mostrar tabs después de cierto scroll
   useEffect(() => {
     const handleScroll = () => {
-      const scrollThreshold = 300;
+      const scrollThreshold = 500;
       setShowTabs(window.scrollY > scrollThreshold);
     };
 
