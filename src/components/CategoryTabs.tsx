@@ -8,12 +8,14 @@ interface CategoryTabsProps {
   categories: Category[];
   activeCategory: string;
   setActiveCategory: (categoryId: string) => void;
+  isScrolled: boolean; // Añadimos esta propiedad para controlar la visibilidad
 }
 
 const CategoryTabs: React.FC<CategoryTabsProps> = ({
   categories,
   activeCategory,
-  setActiveCategory
+  setActiveCategory,
+  isScrolled
 }) => {
   const tabsRef = useRef<HTMLDivElement>(null);
   const [preventTabScroll, setPreventTabScroll] = useState(false);
@@ -49,8 +51,13 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
     }, 1000);
   };
 
+  // Si no hay scroll, no mostramos la barra de categorías
+  if (!isScrolled) {
+    return null;
+  }
+
   return (
-    <div className={`bg-white sticky ${isMobile ? 'top-[68px]' : 'top-[68px]'} z-30 border-b border-gray-200 shadow-sm`}>
+    <div className={`bg-white fixed ${isMobile ? 'top-[68px]' : 'top-[68px]'} left-0 right-0 z-30 border-b border-gray-200 shadow-sm transition-opacity duration-300`}>
       <div className="relative max-w-7xl mx-auto px-4 animate-fade-in">
         {/* Modified ScrollArea component with scrollbar-hide class */}
         <ScrollArea className="w-full overflow-hidden scrollbar-hide" orientation="horizontal">
