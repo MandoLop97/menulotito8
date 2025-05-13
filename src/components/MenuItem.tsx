@@ -44,11 +44,12 @@ const MenuItem: React.FC<MenuItemProps> = ({ item }) => {
           <Button
   onClick={() => addItem(item)}
   size="icon"
-  className="absolute bottom-1 right-1 w-9 h-9 p-0 rounded-xl bg-gradient-to-br from-blue-500 to-black text-white shadow-md hover:scale-105 active:scale-95 transition-transform duration-200"
+  className="absolute bottom-1 right-1 w-9 h-9 p-0 rounded-xl bg-gradient-to-br from-black to-white text-black shadow-md hover:scale-105 active:scale-95 transition-transform duration-200"
   aria-label="Añadir al carrito"
 >
   <span className="text-lg font-bold leading-none">+</span>
 </Button>
+
         </div>
       </div>
     </Card>
