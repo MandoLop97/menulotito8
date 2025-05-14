@@ -15,25 +15,21 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
   setActiveCategory
 }) => {
   const tabsRef = useRef<HTMLDivElement>(null);
-  const [showTabs, setShowTabs] = useState(true); // Mostrar siempre en lugar de con scrollY
+  const [showTabs, setShowTabs] = useState(true);
   const isMobile = useIsMobile();
   const tabHeight = 56;
   const tabOffsetTop = isMobile ? 0 : 68;
   const scrollingRef = useRef<boolean>(false);
-  const [hasScrolled, setHasScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      const passed = window.scrollY > 100; // activación anticipada, opcional
-      if (passed !== showTabs) {
-        setShowTabs(passed);
-        if (passed && !hasScrolled) setHasScrolled(true);
-      }
+      const passed = window.scrollY > 100;
+      setShowTabs(passed);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [showTabs, hasScrolled]);
+  }, []);
 
   useEffect(() => {
     if (!tabsRef.current || !activeCategory || scrollingRef.current) return;
@@ -84,7 +80,9 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
 
   return (
     <>
-      {!isMobile && <div style={{ height: `${tabHeight}px` }} />}
+      {/* solo mostrar el espacio cuando showTabs está activo */}
+      {!isMobile && showTabs && <div style={{ height: `${tabHeight}px` }} />}
+
       <div
         className={`z-30 fixed left-0 right-0 shadow-md bg-white transition-all duration-300 ${
           showTabs ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
