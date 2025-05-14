@@ -153,7 +153,7 @@ const Index = () => {
   
   return (
     <CartProvider>
-      <div className={`min-h-screen bg-gray-50 transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+      <div className={`min-h-screen bg-gray-50 dark:bg-navy-900 transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
         <Header />
         
         <div className="">
@@ -176,7 +176,9 @@ const Index = () => {
         </main>
         
         <Cart />
-        <MobileNavBar />
+        <div className="mobile-nav-blur">
+          <MobileNavBar />
+        </div>
       </div>
     </CartProvider>
   );
