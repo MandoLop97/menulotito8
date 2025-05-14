@@ -152,7 +152,7 @@ const UnifiedBanner = ({ business, isLoading = false }: UnifiedBannerProps) => {
 
         <div className="flex items-center justify-between gap-6 max-w-sm mx-auto bg-white/60 backdrop-blur-md px-3 py-2 rounded-xl shadow-md border border-gray-200">
           <div className="flex items-center gap-2">
-            <span className="inline-block w-4 h-4 bg-navy-700 rounded-full" />
+            <Clock className="w-4 h-4 text-navy-700" />
             <div className="flex flex-col leading-tight">
               <span className="text-[11px] text-gray-500">Tiempo de entrega</span>
               <span className="font-semibold text-navy-800 text-sm">25–45 min</span>
@@ -162,14 +162,13 @@ const UnifiedBanner = ({ business, isLoading = false }: UnifiedBannerProps) => {
           <div className="w-px h-8 bg-gray-300" />
 
           <div className="flex items-center gap-2">
-            <span className="inline-block w-4 h-4 bg-navy-700 rounded-full" />
+            <MapPin className="w-4 h-4 text-navy-700" />
             <div className="flex flex-col leading-tight">
               <span className="text-[11px] text-gray-500">Costo de envío</span>
               <span className="font-semibold text-navy-800 text-sm">Desde $20 MXN</span>
             </div>
           </div>
         </div>
-      </div>
 
       {/* Diálogos */}
       <Dialog open={showHours} onOpenChange={setShowHours}>
