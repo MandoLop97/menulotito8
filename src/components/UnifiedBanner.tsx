@@ -149,18 +149,17 @@ const UnifiedBanner = ({ business, isLoading = false }: UnifiedBannerProps) => {
     <Badge className="bg-gray-50/80 text-gray-700 border-gray-200 hover:bg-gray-100 px-3 py-1">Para recoger</Badge>
   </div>
 
-  <div className="flex justify-center gap-10 text-sm text-gray-600 max-w-xs mx-auto bg-white/50 backdrop-blur-sm py-3 px-6 rounded-full shadow-sm">
-    <div className="flex flex-col">
-      <span className="text-xs text-gray-500">Tiempo envío</span>
-      <span className="font-medium text-navy-800">25 - 45 mins</span>
-    </div>
+ <div className="flex justify-center gap-5 text-xs text-gray-600 max-w-[260px] mx-auto bg-white/40 backdrop-blur-sm py-2 px-4 rounded-full shadow-sm">
+  <div className="flex flex-col text-center leading-tight">
+    <span className="text-[10px] text-gray-500">Tiempo envío</span>
+    <span className="font-semibold text-navy-800 text-sm">25–45 min</span>
+  </div>
 
-    <Separator orientation="vertical" className="h-10" />
+  <Separator orientation="vertical" className="h-8 bg-gray-200" />
 
-    <div className="flex flex-col">
-      <span className="text-xs text-gray-500">Costo envío</span>
-      <span className="font-medium text-navy-800">Desde $20 MXN</span>
-    </div>
+  <div className="flex flex-col text-center leading-tight">
+    <span className="text-[10px] text-gray-500">Costo envío</span>
+    <span className="font-semibold text-navy-800 text-sm">Desde $20 MXN</span>
   </div>
 </div>
 
