@@ -15,7 +15,7 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
   setActiveCategory
 }) => {
   const tabsRef = useRef<HTMLDivElement>(null);
-  const [showTabs, setShowTabs] = useState(true);
+  const [showTabs, setShowTabs] = useState(false);
   const isMobile = useIsMobile();
   const tabHeight = 56;
   const tabOffsetTop = isMobile ? 0 : 68;
@@ -23,13 +23,20 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
 
   useEffect(() => {
     const handleScroll = () => {
-      const passed = window.scrollY > 100;
-      setShowTabs(passed);
+      const firstCategoryId = categories[0]?.id;
+      const firstSection = document.getElementById(`category-${firstCategoryId}`);
+      if (!firstSection) return;
+
+      const rect = firstSection.getBoundingClientRect();
+      const top = rect.top;
+      const isVisible = top <= tabOffsetTop + 50 && rect.bottom > tabOffsetTop + 50;
+      setShowTabs(isVisible);
     };
 
+    handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [categories, tabOffsetTop]);
 
   useEffect(() => {
     if (!tabsRef.current || !activeCategory || scrollingRef.current) return;
@@ -80,7 +87,6 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
 
   return (
     <>
-      {/* solo mostrar el espacio cuando showTabs está activo */}
       {!isMobile && showTabs && <div style={{ height: `${tabHeight}px` }} />}
 
       <div
