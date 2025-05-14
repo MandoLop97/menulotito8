@@ -149,13 +149,11 @@ const UnifiedBanner = ({ business, isLoading = false }: UnifiedBannerProps) => {
     <Badge className="bg-gray-50/80 text-gray-700 border-gray-200 hover:bg-gray-100 px-3 py-1">Para recoger</Badge>
   </div>
 
-  <div className="flex justify-center gap-6 text-xs text-gray-600 max-w-[240px] mx-auto bg-white/40 backdrop-blur-sm py-2 px-4 rounded-full shadow-sm">
-  <div className="flex flex-col leading-tight text-center">
-    <span className="text-[10px] text-gray-500">Tiempo envío</span>
-    <span className="font-semibold text-navy-800 text-sm">25 - 45 min</span>
-  </div>
-</div>
-
+  <div className="flex justify-center gap-10 text-sm text-gray-600 max-w-xs mx-auto bg-white/50 backdrop-blur-sm py-3 px-6 rounded-full shadow-sm">
+    <div className="flex flex-col">
+      <span className="text-xs text-gray-500">Tiempo envío</span>
+      <span className="font-medium text-navy-800">25 - 45 mins</span>
+    </div>
 
     <Separator orientation="vertical" className="h-10" />
 
