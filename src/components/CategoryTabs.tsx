@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, memo } from 'react';
+import { useRef, useEffect, useState, memo, useCallback } from 'react';
 import { Category } from '@/lib/types';
 import { ScrollArea } from './ui/scroll-area';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -9,7 +9,7 @@ interface CategoryTabsProps {
   setActiveCategory: (categoryId: string) => void;
 }
 
-const CategoryTabs: React.FC<CategoryTabsProps> = ({
+const CategoryTabs: React.FC<CategoryTabsProps> = memo(({ // envuelto completamente con memo
   categories,
   activeCategory,
   setActiveCategory
@@ -68,7 +68,7 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
     }
   }, [activeCategory]);
 
-  const handleCategoryClick = (categoryId: string) => {
+  const handleCategoryClick = useCallback((categoryId: string) => {
     if (!tabsRef.current || categoryId === activeCategory) return;
 
     scrollingRef.current = true;
@@ -90,7 +90,7 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
     } else {
       scrollingRef.current = false;
     }
-  };
+  }, [activeCategory, setActiveCategory, tabHeight, tabOffsetTop]);
 
   return (
     <>
@@ -150,6 +150,6 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
       </div>
     </>
   );
-};
+});
 
-export default memo(CategoryTabs);
+export default CategoryTabs;
