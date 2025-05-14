@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
@@ -231,30 +230,26 @@ const BusinessMenu = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-navy-900">
-        <div className="glass-card p-8 rounded-xl shadow-lg">
-          <Loader2 className="h-12 w-12 text-orange-500 animate-spin mx-auto" />
-          <p className="mt-4 text-lg font-medium text-center text-gray-700 dark:text-gray-200">Cargando menú...</p>
-        </div>
+      <div className="min-h-screen flex flex-col items-center justify-center p-4">
+        <Loader2 className="h-10 w-10 text-primary animate-spin" />
+        <p className="mt-4 text-lg">Cargando menú...</p>
       </div>
     );
   }
 
   if (error || !business) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-navy-900">
-        <div className="glass-card p-8 rounded-xl shadow-lg">
-          <p className="text-lg text-red-500 text-center">
-            {error || 'No se encontró el negocio'}
-          </p>
-        </div>
+      <div className="min-h-screen flex flex-col items-center justify-center p-4">
+        <p className="text-lg text-red-500">
+          {error || 'No se encontró el negocio'}
+        </p>
       </div>
     );
   }
 
   return (
     <CartProvider>
-      <div className={`min-h-screen bg-gray-50 dark:bg-navy-900 transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+      <div className={`min-h-screen bg-gray-50 transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
         <Header />
         
         <UnifiedBanner business={business} isLoading={loading} />
@@ -283,9 +278,7 @@ const BusinessMenu = () => {
         </main>
         
         <Cart />
-        <div className="mobile-nav-blur">
-          <MobileNavBar />
-        </div>
+        <MobileNavBar />
       </div>
     </CartProvider>
   );

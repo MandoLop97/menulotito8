@@ -33,20 +33,17 @@ const MenuSection: React.FC<MenuSectionProps> = ({
       id={`category-${categoryId}`} 
       ref={sectionRef} 
       data-category-section={categoryId} 
-      className="mb-16 pt-4 px-4 rounded-xl bg-gradient-to-br from-white to-gray-50 dark:from-navy-800/90 dark:to-navy-900 shadow-lg border border-gray-100 dark:border-navy-700"
+      className="mb-16 pt-4 px-4 rounded-xl bg-white/50 shadow-sm"
     >
-      <h2 className="text-2xl font-bold mb-6 text-navy-800 dark:text-white border-b pb-3 border-orange-200 dark:border-navy-600 flex items-center">
-        <span className="bg-gradient-to-r from-orange-600 to-orange-400 bg-clip-text text-transparent">{categoryName}</span>
-        <div className="ml-3 h-1 bg-gradient-to-r from-orange-600 to-orange-300 flex-grow rounded-full"></div>
-      </h2>
+      <h2 className="text-xl font-bold mb-5 text-navy-800 border-b pb-3">{categoryName}</h2>
       
-      <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3'} gap-5`}>
+      <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-2'} gap-5`}>
         {items.map((item, index) => (
           <div 
             key={item.id} 
             className="opacity-0 animate-fade-in" 
             style={{
-              animationDelay: `${index * 0.08}s`,
+              animationDelay: `${index * 0.05}s`,
               animationFillMode: 'forwards'
             }}
           >
