@@ -2,13 +2,14 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "@/hooks/use-toast";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tables } from "@/integrations/supabase/types";
 import Sidebar from "@/components/admin/Sidebar";
+import AdminHeader from "@/components/admin/AdminHeader";
 import StatsCard from "@/components/admin/StatsCard";
-import { CalendarClock, PieChart, TrendingUp, Users, Package } from "lucide-react";
+import { PieChart, TrendingUp, Users, Package } from "lucide-react";
 
 type Business = Tables<"businesses">;
 
@@ -99,63 +100,31 @@ const Dashboard = () => {
     checkAuth();
   }, [navigate, period]);
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    navigate("/auth");
-  };
-
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="bg-white p-8 rounded-lg shadow-md flex flex-col items-center">
-          <div className="w-12 h-12 border-4 border-t-orange-500 border-b-orange-500 border-l-gray-200 border-r-gray-200 rounded-full animate-spin mb-4"></div>
-          <p className="text-lg text-gray-600">Cargando panel administrativo...</p>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-navy-900">
+        <div className="bg-white dark:bg-navy-800 p-8 rounded-lg shadow-md flex flex-col items-center">
+          <div className="w-12 h-12 border-4 border-t-orange-500 border-b-orange-500 border-l-gray-200 border-r-gray-200 dark:border-l-gray-700 dark:border-r-gray-700 rounded-full animate-spin mb-4"></div>
+          <p className="text-lg text-gray-600 dark:text-gray-300">Cargando panel administrativo...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex min-h-screen bg-gray-100 dark:bg-navy-900">
       <Sidebar />
       
       <div className="flex-1 flex flex-col">
-        <header className="bg-white border-b border-gray-200 shadow-sm">
-          <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <h1 className="text-xl font-bold text-navy-800">Panel de Control</h1>
-              <span className="bg-orange-500/10 text-orange-600 text-xs px-2 py-1 rounded-full font-medium">
-                {business?.name || "Mi Negocio"}
-              </span>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="hidden md:flex items-center gap-2 bg-gray-50 px-3 py-1.5 rounded-full">
-                <CalendarClock className="h-4 w-4 text-gray-500" />
-                <span className="text-sm text-gray-600">{new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })}</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="hidden md:block">
-                  <p className="text-sm font-medium">{user?.email}</p>
-                  <p className="text-xs text-gray-500">Administrador</p>
-                </div>
-                <button 
-                  onClick={handleLogout}
-                  className="text-sm text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-md transition-colors"
-                >
-                  Cerrar sesión
-                </button>
-              </div>
-            </div>
-          </div>
-        </header>
+        <AdminHeader title="Panel de Control" businessName={business?.name || "Mi Negocio"} />
         
         <main className="flex-1 p-4 md:p-6 overflow-auto">
           <div className="container mx-auto space-y-6 max-w-6xl">
             <div className="flex justify-between items-center">
-              <h2 className="text-lg font-semibold text-gray-800">Resumen de actividad</h2>
+              <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">Resumen de actividad</h2>
               <div className="w-[180px]">
                 <Select value={period} onValueChange={setPeriod}>
-                  <SelectTrigger className="h-9 text-sm bg-white border-gray-200 shadow-sm">
+                  <SelectTrigger className="h-9 text-sm bg-white dark:bg-navy-700 border-gray-200 dark:border-gray-700 shadow-sm">
                     <SelectValue placeholder="Seleccionar periodo" />
                   </SelectTrigger>
                   <SelectContent>
@@ -169,15 +138,15 @@ const Dashboard = () => {
             </div>
             
             {/* Sección de Domicilio y recolección */}
-            <Card className="border-none shadow-md bg-white overflow-hidden">
-              <CardHeader className="pb-2 bg-gradient-to-r from-orange-50 to-white border-b">
+            <Card className="border-none shadow-md bg-white dark:bg-navy-800 overflow-hidden">
+              <CardHeader className="pb-2 bg-gradient-to-r from-orange-50 to-white dark:from-orange-900/20 dark:to-navy-800 border-b dark:border-navy-700">
                 <div className="flex justify-between items-center">
-                  <CardTitle className="text-lg font-semibold text-navy-800 flex items-center gap-2">
+                  <CardTitle className="text-lg font-semibold text-navy-800 dark:text-white flex items-center gap-2">
                     <Package className="h-5 w-5 text-orange-500" />
                     Domicilio y recolección
                   </CardTitle>
                   <Select defaultValue="ventas">
-                    <SelectTrigger className="w-[100px] h-8 text-sm bg-white/80 border-gray-200">
+                    <SelectTrigger className="w-[100px] h-8 text-sm bg-white/80 dark:bg-navy-700/80 border-gray-200 dark:border-gray-700">
                       <SelectValue placeholder="Filtro" />
                     </SelectTrigger>
                     <SelectContent>
@@ -189,10 +158,10 @@ const Dashboard = () => {
               </CardHeader>
               <CardContent className="pt-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                  <div className="bg-orange-50/50 p-4 rounded-lg">
-                    <p className="text-sm text-gray-500 mb-1">Ingresos Totales</p>
-                    <p className="text-3xl font-bold text-navy-800">${deliveryStats.ventas}</p>
-                    <p className="text-xs text-green-600 mt-1 flex items-center">
+                  <div className="bg-orange-50/50 dark:bg-orange-900/10 p-4 rounded-lg">
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Ingresos Totales</p>
+                    <p className="text-3xl font-bold text-navy-800 dark:text-white">${deliveryStats.ventas}</p>
+                    <p className="text-xs text-green-600 dark:text-green-400 mt-1 flex items-center">
                       <TrendingUp className="h-3 w-3 mr-1" />
                       +12% comparado con ayer
                     </p>
@@ -209,15 +178,15 @@ const Dashboard = () => {
             </Card>
             
             {/* Sección de En mesas */}
-            <Card className="border-none shadow-md bg-white overflow-hidden">
-              <CardHeader className="pb-2 bg-gradient-to-r from-blue-50 to-white border-b">
+            <Card className="border-none shadow-md bg-white dark:bg-navy-800 overflow-hidden">
+              <CardHeader className="pb-2 bg-gradient-to-r from-blue-50 to-white dark:from-blue-900/20 dark:to-navy-800 border-b dark:border-navy-700">
                 <div className="flex justify-between items-center">
-                  <CardTitle className="text-lg font-semibold text-navy-800 flex items-center gap-2">
+                  <CardTitle className="text-lg font-semibold text-navy-800 dark:text-white flex items-center gap-2">
                     <Users className="h-5 w-5 text-blue-500" />
                     En mesas
                   </CardTitle>
                   <Select defaultValue="ventas">
-                    <SelectTrigger className="w-[100px] h-8 text-sm bg-white/80 border-gray-200">
+                    <SelectTrigger className="w-[100px] h-8 text-sm bg-white/80 dark:bg-navy-700/80 border-gray-200 dark:border-gray-700">
                       <SelectValue placeholder="Filtro" />
                     </SelectTrigger>
                     <SelectContent>
@@ -229,10 +198,10 @@ const Dashboard = () => {
               </CardHeader>
               <CardContent className="pt-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                  <div className="bg-blue-50/50 p-4 rounded-lg">
-                    <p className="text-sm text-gray-500 mb-1">Ingresos Totales</p>
-                    <p className="text-3xl font-bold text-navy-800">${tableStats.ventas}</p>
-                    <p className="text-xs text-green-600 mt-1 flex items-center">
+                  <div className="bg-blue-50/50 dark:bg-blue-900/10 p-4 rounded-lg">
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Ingresos Totales</p>
+                    <p className="text-3xl font-bold text-navy-800 dark:text-white">${tableStats.ventas}</p>
+                    <p className="text-xs text-green-600 dark:text-green-400 mt-1 flex items-center">
                       <TrendingUp className="h-3 w-3 mr-1" />
                       +8% comparado con ayer
                     </p>

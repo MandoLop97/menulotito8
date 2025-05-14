@@ -47,7 +47,7 @@ const MobileNavBar: React.FC = () => {
         }}
       />
       
-      <div className="fixed bottom-0 left-0 right-0 bg-navy-800 text-white py-1 z-40 md:hidden shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+      <div className="fixed bottom-0 left-0 right-0 backdrop-blur-md bg-navy-800/80 text-white py-1 z-40 md:hidden shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
         <div className="flex justify-around items-center">
           <button
             onClick={handleHistoryClick}
