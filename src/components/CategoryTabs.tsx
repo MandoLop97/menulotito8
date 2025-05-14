@@ -24,13 +24,20 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
   useEffect(() => {
     const handleScroll = () => {
       const firstCategoryId = categories[0]?.id;
-      const firstSection = document.getElementById(`category-${firstCategoryId}`);
-      if (!firstSection) return;
+      const lastCategoryId = categories[categories.length - 1]?.id;
 
-      const rect = firstSection.getBoundingClientRect();
-      const top = rect.top;
-      const isVisible = top <= tabOffsetTop + 50 && rect.bottom > tabOffsetTop + 50;
-      setShowTabs(isVisible);
+      const firstSection = document.getElementById(`category-${firstCategoryId}`);
+      const lastSection = document.getElementById(`category-${lastCategoryId}`);
+
+      if (!firstSection || !lastSection) return;
+
+      const firstRect = firstSection.getBoundingClientRect();
+      const lastRect = lastSection.getBoundingClientRect();
+
+      const startVisible = firstRect.top <= tabOffsetTop + 50;
+      const endNotPassed = lastRect.bottom >= tabOffsetTop + 50;
+
+      setShowTabs(startVisible && endNotPassed);
     };
 
     handleScroll();
