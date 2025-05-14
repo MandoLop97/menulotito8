@@ -9,99 +9,68 @@ interface CategoryTabsProps {
   setActiveCategory: (categoryId: string) => void;
 }
 
-const CategoryTabs: React.FC<CategoryTabsProps> = memo(({
+const CategoryTabs: React.FC<CategoryTabsProps> = memo(({ // envuelto completamente con memo
   categories,
   activeCategory,
   setActiveCategory
 }) => {
   const tabsRef = useRef<HTMLDivElement>(null);
-  const activeTabRef = useRef<HTMLElement | null>(null);
-  const [showTabs, setShowTabs] = useState(true);
+  const [showTabs, setShowTabs] = useState(false);
   const isMobile = useIsMobile();
   const tabHeight = 56;
   const tabOffsetTop = isMobile ? 0 : 68;
   const scrollingRef = useRef<boolean>(false);
-  const lastScrollTime = useRef<number>(0);
-  const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
-  
-  // Tiempo para evitar cambios rápidos de categoría (ms)
-  const SCROLL_STABILITY_TIME = 150;
-  // Tiempo de bloqueo después de clic manual (ms)
-  const MANUAL_CLICK_LOCK_TIME = 1000;
 
-  // Calcular la categoría activa basada en la posición de scroll
-  const calculateActiveCategory = useCallback(() => {
-    // No calcular si el usuario acaba de hacer clic
-    if (scrollingRef.current) return;
-    
-    // Buscar la primera sección visible
-    for (const category of categories) {
-      const section = document.getElementById(`category-${category.id}`);
-      if (!section) continue;
-
-      const rect = section.getBoundingClientRect();
-      // Añadimos un margen de error para reducir la sensibilidad
-      const threshold = tabOffsetTop + 30;
-      
-      if (rect.top <= threshold && rect.bottom > threshold) {
-        if (category.id !== activeCategory) {
-          setActiveCategory(category.id);
-        }
-        break;
-      }
-    }
-  }, [categories, activeCategory, setActiveCategory, tabOffsetTop]);
-
-  // Manejo del evento de scroll con debounce
   useEffect(() => {
     const handleScroll = () => {
-      const now = Date.now();
-      lastScrollTime.current = now;
-      
-      // Cancelar cualquier actualización pendiente
-      if (scrollTimeout.current) {
-        clearTimeout(scrollTimeout.current);
-      }
-      
-      // Esperar a que el scroll se detenga antes de actualizar
-      scrollTimeout.current = setTimeout(() => {
-        // Solo actualizar si ha pasado suficiente tiempo desde el último scroll
-        if (Date.now() - lastScrollTime.current >= SCROLL_STABILITY_TIME) {
-          calculateActiveCategory();
-        }
-      }, SCROLL_STABILITY_TIME);
+      const firstCategoryId = categories[0]?.id;
+      const lastCategoryId = categories[categories.length - 1]?.id;
+
+      const firstSection = document.getElementById(`category-${firstCategoryId}`);
+      const lastSection = document.getElementById(`category-${lastCategoryId}`);
+
+      if (!firstSection || !lastSection) return;
+
+      const firstRect = firstSection.getBoundingClientRect();
+      const lastRect = lastSection.getBoundingClientRect();
+
+      const startVisible = firstRect.top <= tabOffsetTop + 50;
+      const endNotPassed = lastRect.bottom >= tabOffsetTop + 50;
+
+      setShowTabs(startVisible && endNotPassed);
     };
 
+    handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      if (scrollTimeout.current) {
-        clearTimeout(scrollTimeout.current);
-      }
-    };
-  }, [calculateActiveCategory]);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [categories, tabOffsetTop]);
 
-  // Centrar el tab activo en el área visible
   useEffect(() => {
-    if (!tabsRef.current || !activeTabRef.current) return;
-    
-    // Solo centramos si no es el resultado de un clic
-    if (!scrollingRef.current) {
-      requestAnimationFrame(() => {
-        activeTabRef.current?.scrollIntoView({
-          behavior: 'smooth',
-          inline: 'center',
-          block: 'nearest'
+    if (!tabsRef.current || !activeCategory || scrollingRef.current) return;
+
+    const tabEl = tabsRef.current.querySelector(
+      `.category-tab[data-category="${activeCategory}"]`
+    ) as HTMLElement;
+
+    if (tabEl) {
+      const rect = tabEl.getBoundingClientRect();
+      const parentRect = tabsRef.current.getBoundingClientRect();
+
+      if (rect.left < parentRect.left || rect.right > parentRect.right) {
+        requestAnimationFrame(() => {
+          tabEl.scrollIntoView({
+            behavior: 'smooth',
+            inline: 'center',
+            block: 'nearest'
+          });
         });
-      });
+      }
     }
   }, [activeCategory]);
 
-  // Manejar clic en una categoría
   const handleCategoryClick = useCallback((categoryId: string) => {
-    if (categoryId === activeCategory) return;
-    
-    // Marcar que estamos en un scroll manual para evitar parpadeos
+    if (!tabsRef.current || categoryId === activeCategory) return;
+
     scrollingRef.current = true;
     setActiveCategory(categoryId);
 
@@ -115,14 +84,9 @@ const CategoryTabs: React.FC<CategoryTabsProps> = memo(({
         behavior: 'smooth'
       });
 
-      // Mantener bloqueada la detección automática por más tiempo
-      if (scrollTimeout.current) {
-        clearTimeout(scrollTimeout.current);
-      }
-      
       setTimeout(() => {
         scrollingRef.current = false;
-      }, MANUAL_CLICK_LOCK_TIME);
+      }, 800);
     } else {
       scrollingRef.current = false;
     }
@@ -130,10 +94,12 @@ const CategoryTabs: React.FC<CategoryTabsProps> = memo(({
 
   return (
     <>
-      {!isMobile && <div style={{ height: `${tabHeight}px` }} />}
+      {!isMobile && showTabs && <div style={{ height: `${tabHeight}px` }} />}
 
       <div
-        className="z-30 fixed left-0 right-0 shadow-md bg-white transition-all duration-300 opacity-100 translate-y-0"
+        className={`z-30 fixed left-0 right-0 shadow-md bg-white transition-all duration-300 ${
+          showTabs ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
+        }`}
         style={{
           height: `${tabHeight}px`,
           top: `${tabOffsetTop}px`,
@@ -158,12 +124,11 @@ const CategoryTabs: React.FC<CategoryTabsProps> = memo(({
                 return (
                   <button
                     key={category.id}
-                    ref={isActive ? activeTabRef : null}
                     data-category={category.id}
                     onClick={() => handleCategoryClick(category.id)}
                     className={`category-tab relative whitespace-nowrap px-4 py-3 font-medium text-sm rounded-md transition-all duration-200 ${
                       isActive
-                        ? 'text-navy-800 font-bold bg-white shadow-md'
+                        ? 'text-navy-800 font-semibold bg-white shadow-md'
                         : 'text-gray-600 hover:text-navy-700 hover:bg-gray-50/50'
                     }`}
                   >
