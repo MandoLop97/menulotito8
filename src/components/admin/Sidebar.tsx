@@ -25,7 +25,7 @@ const Sidebar = () => {
 
   return (
     <aside className={cn(
-      "bg-white dark:bg-navy-800 border-r border-gray-200 dark:border-gray-700 shadow-sm transition-all duration-300 flex flex-col",
+      "admin-sidebar transition-all duration-300 flex flex-col",
       collapsed ? "w-[70px]" : "w-64"
     )}>
       <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">

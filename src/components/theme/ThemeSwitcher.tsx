@@ -10,7 +10,7 @@ export function ThemeSwitcher() {
     <Button
       variant="ghost"
       size="icon"
-      className="h-9 w-9 rounded-full"
+      className="h-9 w-9 rounded-full bg-transparent hover:bg-gray-100 dark:hover:bg-navy-700"
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
     >
       {theme === "dark" ? (
