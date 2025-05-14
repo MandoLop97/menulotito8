@@ -150,7 +150,7 @@ const UnifiedBanner = ({ business, isLoading = false }: UnifiedBannerProps) => {
           <Badge className="bg-gray-50/80 text-gray-700 border-gray-200 hover:bg-gray-100 px-3 py-1">Para recoger</Badge>
         </div>
 
-        <div className="flex items-center justify-between gap-6 max-w-sm mx-auto bg-white/60 backdrop-blur-md px-4 py-3 rounded-xl shadow-md border border-gray-200">
+        <div className="flex items-center justify-center gap-4 max-w-[220px] mx-auto bg-white/70 backdrop-blur-sm px-3 py-2 rounded-full shadow-sm border border-gray-100">
           <div className="flex items-center gap-2">
             <span className="inline-block w-4 h-4 bg-navy-700 rounded-full" />
             <div className="flex flex-col leading-tight">
