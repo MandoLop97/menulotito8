@@ -1,3 +1,4 @@
+
 import React, { useRef, useEffect } from 'react';
 import { MenuItem as MenuItemType } from '@/lib/types';
 import MenuItem from './MenuItem';
@@ -8,66 +9,39 @@ interface MenuSectionProps {
   categoryName: string;
   items: MenuItemType[];
   isActive: boolean;
-  onVisible: (categoryId: string) => void;
 }
 
 const MenuSection: React.FC<MenuSectionProps> = ({
   categoryId,
   categoryName,
   items,
-  isActive,
-  onVisible
+  isActive
 }) => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
+  const hasScrolledRef = useRef<boolean>(false);
 
   useEffect(() => {
-    if (!sectionRef.current) return;
-
-    sectionRef.current.style.scrollMarginTop = '140px';
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (
-          entry.isIntersecting &&
-          !entry.target.classList.contains('active-section')
-        ) {
-          entry.target.classList.add('active-section');
-          onVisible(categoryId);
-        }
-      },
-      {
-        root: null,
-        threshold: 0.6 // más estricto para evitar cambios demasiado tempranos
-      }
-    );
-
-    observer.observe(sectionRef.current);
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-        sectionRef.current.classList.remove('active-section');
-      }
-    };
-  }, [categoryId, onVisible]);
+    // Set a better scroll-margin-top to account for the sticky header and category tabs
+    if (sectionRef.current) {
+      sectionRef.current.style.scrollMarginTop = '140px';
+    }
+  }, []);
 
   return (
-    <div
-      id={`category-${categoryId}`}
-      ref={sectionRef}
-      data-category-section={categoryId}
+    <div 
+      id={`category-${categoryId}`} 
+      ref={sectionRef} 
+      data-category-section={categoryId} 
       className="mb-16 pt-4 px-4 rounded-xl bg-white/50 shadow-sm"
     >
-      <h2 className="text-xl font-bold mb-5 text-navy-800 border-b pb-3">
-        {categoryName}
-      </h2>
-
+      <h2 className="text-xl font-bold mb-5 text-navy-800 border-b pb-3">{categoryName}</h2>
+      
       <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-2'} gap-5`}>
         {items.map((item, index) => (
-          <div
-            key={item.id}
-            className="opacity-0 animate-fade-in"
+          <div 
+            key={item.id} 
+            className="opacity-0 animate-fade-in" 
             style={{
               animationDelay: `${index * 0.05}s`,
               animationFillMode: 'forwards'
