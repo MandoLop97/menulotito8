@@ -1,6 +1,6 @@
 
 import { Link, useLocation } from "react-router-dom";
-import { HomeIcon, LayoutDashboard, Settings, MenuIcon, Share2, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
+import { HomeIcon, LayoutDashboard, Settings, MenuIcon, Share2, BookOpen, ChevronLeft, ChevronRight, PhoneCall } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -25,7 +25,7 @@ const Sidebar = () => {
 
   return (
     <aside className={cn(
-      "admin-sidebar transition-all duration-300 flex flex-col",
+      "admin-sidebar transition-all duration-300 flex flex-col h-screen",
       collapsed ? "w-[70px]" : "w-64"
     )}>
       <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
@@ -78,7 +78,10 @@ const Sidebar = () => {
         </Link>
       </div>
 
-      <div className={cn("border-t border-gray-200 dark:border-gray-700 p-3 flex items-center justify-between", collapsed && "justify-center")}>
+      <div className={cn(
+        "border-t border-gray-200 dark:border-gray-700 flex flex-col gap-2", 
+        collapsed ? "p-2" : "p-3"
+      )}>
         {!collapsed ? (
           <>
             <Link to="/admin/tutorials">
@@ -90,7 +93,17 @@ const Sidebar = () => {
                 <span>Tutoriales</span>
               </div>
             </Link>
-            <ThemeSwitcher />
+            <div className="flex items-center justify-between mt-2">
+              <ThemeSwitcher />
+              <div className="flex items-center gap-1 text-xs text-gray-600 dark:text-gray-300">
+                <span className="bg-green-500 rounded-full h-2 w-2"></span>
+                <span>Soporte activo</span>
+              </div>
+            </div>
+            <div className="text-xs text-gray-600 dark:text-gray-300 flex items-center gap-2 mt-1 px-3">
+              <PhoneCall className="h-3 w-3" />
+              <span>+1 (555) 123-4567</span>
+            </div>
           </>
         ) : (
           <div className="flex flex-col gap-3 items-center">
@@ -103,6 +116,7 @@ const Sidebar = () => {
               </div>
             </Link>
             <ThemeSwitcher />
+            <div className="bg-green-500 rounded-full h-2 w-2 mb-1" title="Soporte activo"></div>
           </div>
         )}
       </div>
