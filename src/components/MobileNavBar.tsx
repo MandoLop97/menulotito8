@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ShoppingCart, History, Settings } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
@@ -43,15 +42,15 @@ const MobileNavBar: React.FC = () => {
       <div 
         className="fixed bottom-[50px] left-0 right-0 h-12 pointer-events-none z-30"
         style={{
-          background: 'linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.10))'
+          background: 'linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.20))'
         }}
       />
       
-      <div className="fixed bottom-0 left-0 right-0 backdrop-blur-md bg-navy-800/80 text-white py-1 z-40 md:hidden shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+      <div className="fixed bottom-0 left-0 right-0 backdrop-blur-md bg-navy-900/95 text-gray-100 py-1 z-40 md:hidden shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.2)]">
         <div className="flex justify-around items-center">
           <button
             onClick={handleHistoryClick}
-            className="flex flex-col items-center p-1.5 transition-transform active:scale-95"
+            className="flex flex-col items-center p-1.5 transition-transform active:scale-95 hover:text-white"
           >
             <History className="h-5 w-5" />
             <span className="text-[0.7rem] mt-0.5">Historial</span>
@@ -59,7 +58,7 @@ const MobileNavBar: React.FC = () => {
           
           <button 
             onClick={() => toggleCart()}
-            className="relative flex flex-col items-center p-1.5 transition-transform active:scale-95"
+            className="relative flex flex-col items-center p-1.5 transition-transform active:scale-95 hover:text-white"
           >
             <ShoppingCart className="h-5 w-5" />
             {itemCount > 0 && (
@@ -72,7 +71,7 @@ const MobileNavBar: React.FC = () => {
           
           <button
             onClick={handleSettingsClick}
-            className="flex flex-col items-center p-1.5 transition-transform active:scale-95"
+            className="flex flex-col items-center p-1.5 transition-transform active:scale-95 hover:text-white"
           >
             <Settings className="h-5 w-5" />
             <span className="text-[0.7rem] mt-0.5">Ajustes</span>
