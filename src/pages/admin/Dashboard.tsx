@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tables } from "@/integrations/supabase/types";
 import Sidebar from "@/components/admin/Sidebar";
 import StatsCard from "@/components/admin/StatsCard";
-import { CalendarClock } from "lucide-react";
+import { CalendarClock, PieChart, TrendingUp, Users, Package } from "lucide-react";
 
 type Business = Tables<"businesses">;
 
@@ -116,7 +116,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex min-h-screen bg-gray-100">
       <Sidebar />
       
       <div className="flex-1 flex flex-col">
@@ -153,24 +153,29 @@ const Dashboard = () => {
           <div className="container mx-auto space-y-6 max-w-6xl">
             <div className="flex justify-between items-center">
               <h2 className="text-lg font-semibold text-gray-800">Resumen de actividad</h2>
-              <Select value={period} onValueChange={setPeriod} className="w-[180px]">
-                <SelectTrigger className="h-9 text-sm bg-white border-gray-200 shadow-sm">
-                  <SelectValue placeholder="Seleccionar periodo" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="today">Hoy</SelectItem>
-                  <SelectItem value="week">Esta semana</SelectItem>
-                  <SelectItem value="month">Este mes</SelectItem>
-                  <SelectItem value="year">Este año</SelectItem>
-                </SelectContent>
-              </Select>
+              <div className="w-[180px]">
+                <Select value={period} onValueChange={setPeriod}>
+                  <SelectTrigger className="h-9 text-sm bg-white border-gray-200 shadow-sm">
+                    <SelectValue placeholder="Seleccionar periodo" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="today">Hoy</SelectItem>
+                    <SelectItem value="week">Esta semana</SelectItem>
+                    <SelectItem value="month">Este mes</SelectItem>
+                    <SelectItem value="year">Este año</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
             
             {/* Sección de Domicilio y recolección */}
             <Card className="border-none shadow-md bg-white overflow-hidden">
               <CardHeader className="pb-2 bg-gradient-to-r from-orange-50 to-white border-b">
                 <div className="flex justify-between items-center">
-                  <CardTitle className="text-lg font-semibold text-navy-800">Domicilio y recolección</CardTitle>
+                  <CardTitle className="text-lg font-semibold text-navy-800 flex items-center gap-2">
+                    <Package className="h-5 w-5 text-orange-500" />
+                    Domicilio y recolección
+                  </CardTitle>
                   <Select defaultValue="ventas">
                     <SelectTrigger className="w-[100px] h-8 text-sm bg-white/80 border-gray-200">
                       <SelectValue placeholder="Filtro" />
@@ -187,15 +192,18 @@ const Dashboard = () => {
                   <div className="bg-orange-50/50 p-4 rounded-lg">
                     <p className="text-sm text-gray-500 mb-1">Ingresos Totales</p>
                     <p className="text-3xl font-bold text-navy-800">${deliveryStats.ventas}</p>
-                    <p className="text-xs text-green-600 mt-1">+12% comparado con ayer</p>
+                    <p className="text-xs text-green-600 mt-1 flex items-center">
+                      <TrendingUp className="h-3 w-3 mr-1" />
+                      +12% comparado con ayer
+                    </p>
                   </div>
                   <div></div>
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <StatsCard title="Ventas" value={deliveryStats.ventas} />
-                  <StatsCard title="Pedidos" value={deliveryStats.pedidos} type="number" />
-                  <StatsCard title="Envíos" value={deliveryStats.envios} />
-                  <StatsCard title="Ticket promedio" value={deliveryStats.ticketPromedio} />
+                  <StatsCard title="Ventas" value={deliveryStats.ventas} icon={<PieChart className="h-4 w-4" />} />
+                  <StatsCard title="Pedidos" value={deliveryStats.pedidos} type="number" icon={<Package className="h-4 w-4" />} />
+                  <StatsCard title="Envíos" value={deliveryStats.envios} icon={<TrendingUp className="h-4 w-4" />} />
+                  <StatsCard title="Ticket promedio" value={deliveryStats.ticketPromedio} icon={<Users className="h-4 w-4" />} />
                 </div>
               </CardContent>
             </Card>
@@ -204,7 +212,10 @@ const Dashboard = () => {
             <Card className="border-none shadow-md bg-white overflow-hidden">
               <CardHeader className="pb-2 bg-gradient-to-r from-blue-50 to-white border-b">
                 <div className="flex justify-between items-center">
-                  <CardTitle className="text-lg font-semibold text-navy-800">En mesas</CardTitle>
+                  <CardTitle className="text-lg font-semibold text-navy-800 flex items-center gap-2">
+                    <Users className="h-5 w-5 text-blue-500" />
+                    En mesas
+                  </CardTitle>
                   <Select defaultValue="ventas">
                     <SelectTrigger className="w-[100px] h-8 text-sm bg-white/80 border-gray-200">
                       <SelectValue placeholder="Filtro" />
@@ -221,14 +232,17 @@ const Dashboard = () => {
                   <div className="bg-blue-50/50 p-4 rounded-lg">
                     <p className="text-sm text-gray-500 mb-1">Ingresos Totales</p>
                     <p className="text-3xl font-bold text-navy-800">${tableStats.ventas}</p>
-                    <p className="text-xs text-green-600 mt-1">+8% comparado con ayer</p>
+                    <p className="text-xs text-green-600 mt-1 flex items-center">
+                      <TrendingUp className="h-3 w-3 mr-1" />
+                      +8% comparado con ayer
+                    </p>
                   </div>
                   <div></div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <StatsCard title="Ventas" value={tableStats.ventas} />
-                  <StatsCard title="Pedidos" value={tableStats.pedidos} type="number" />
-                  <StatsCard title="Ticket promedio" value={tableStats.ticketPromedio} />
+                  <StatsCard title="Ventas" value={tableStats.ventas} icon={<PieChart className="h-4 w-4" />} />
+                  <StatsCard title="Pedidos" value={tableStats.pedidos} type="number" icon={<Package className="h-4 w-4" />} />
+                  <StatsCard title="Ticket promedio" value={tableStats.ticketPromedio} icon={<Users className="h-4 w-4" />} />
                 </div>
               </CardContent>
             </Card>
