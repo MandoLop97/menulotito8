@@ -1,88 +1,102 @@
 
 import { Link, useLocation } from "react-router-dom";
-import { HomeIcon, LayoutDashboard, Settings, MenuIcon, Share2, BookOpen } from "lucide-react";
+import { HomeIcon, LayoutDashboard, Settings, MenuIcon, Share2, BookOpen, LogOut, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 const Sidebar = () => {
   const location = useLocation();
+  const [collapsed, setCollapsed] = useState(false);
   
   const isActive = (path: string) => {
-    return location.pathname === path ? "bg-accent" : "";
+    return location.pathname === path;
+  };
+
+  const getItemClass = (path: string) => {
+    return cn(
+      "flex items-center w-full rounded-md px-3 py-2 transition-colors",
+      isActive(path) 
+        ? "bg-orange-500/10 text-orange-600" 
+        : "hover:bg-gray-100 text-gray-700 hover:text-navy-800"
+    );
   };
 
   return (
-    <aside className="w-64 min-h-screen bg-white border-r border-gray-200 flex flex-col">
-      <div className="p-4 border-b border-gray-200">
-        <Link to="/admin/dashboard" className="flex items-center gap-2">
-          <div className="bg-gray-100 w-8 h-8 rounded-md flex items-center justify-center">
-            <span className="font-medium text-sm">MP</span>
+    <aside className={cn(
+      "bg-white border-r border-gray-200 shadow-sm transition-all duration-300 flex flex-col",
+      collapsed ? "w-[70px]" : "w-64"
+    )}>
+      <div className="p-4 border-b border-gray-200 flex items-center justify-between">
+        <Link to="/admin/dashboard" className={cn("flex items-center gap-2", collapsed && "justify-center")}>
+          <div className="bg-gradient-to-br from-orange-500 to-red-500 w-9 h-9 rounded-md flex items-center justify-center text-white shadow-sm">
+            <span className="font-bold text-sm">MP</span>
           </div>
-          <span className="font-semibold">MasPedidos</span>
+          {!collapsed && <span className="font-semibold text-navy-800">MasPedidos</span>}
         </Link>
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          className="h-8 w-8 p-0 text-gray-500"
+          onClick={() => setCollapsed(!collapsed)}
+        >
+          {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+        </Button>
       </div>
 
       <div className="flex flex-col p-2 space-y-1 flex-grow">
         <Link to="/admin/dashboard">
-          <Button 
-            variant="ghost" 
-            className={`w-full justify-start ${isActive("/admin/dashboard")}`}
-          >
-            <HomeIcon className="mr-2 h-4 w-4" />
-            Inicio
-          </Button>
+          <div className={getItemClass("/admin/dashboard")}>
+            <HomeIcon className={cn("h-5 w-5", collapsed ? "mx-auto" : "mr-3")} />
+            {!collapsed && <span>Inicio</span>}
+          </div>
         </Link>
         <Link to="/admin/panel">
-          <Button 
-            variant="ghost" 
-            className={`w-full justify-start ${isActive("/admin/panel")}`}
-          >
-            <LayoutDashboard className="mr-2 h-4 w-4" />
-            Panel
-          </Button>
+          <div className={getItemClass("/admin/panel")}>
+            <LayoutDashboard className={cn("h-5 w-5", collapsed ? "mx-auto" : "mr-3")} />
+            {!collapsed && <span>Panel</span>}
+          </div>
         </Link>
         <Link to="/admin/menu">
-          <Button 
-            variant="ghost" 
-            className={`w-full justify-start ${isActive("/admin/menu")}`}
-          >
-            <MenuIcon className="mr-2 h-4 w-4" />
-            Menú
-          </Button>
+          <div className={getItemClass("/admin/menu")}>
+            <MenuIcon className={cn("h-5 w-5", collapsed ? "mx-auto" : "mr-3")} />
+            {!collapsed && <span>Menú</span>}
+          </div>
         </Link>
         <Link to="/admin/share">
-          <Button 
-            variant="ghost" 
-            className={`w-full justify-start ${isActive("/admin/share")}`}
-          >
-            <Share2 className="mr-2 h-4 w-4" />
-            Compartir
-          </Button>
+          <div className={getItemClass("/admin/share")}>
+            <Share2 className={cn("h-5 w-5", collapsed ? "mx-auto" : "mr-3")} />
+            {!collapsed && <span>Compartir</span>}
+          </div>
         </Link>
         <Link to="/admin/settings">
-          <Button 
-            variant="ghost" 
-            className={`w-full justify-start ${isActive("/admin/settings")}`}
-          >
-            <Settings className="mr-2 h-4 w-4" />
-            Ajustes
-          </Button>
+          <div className={getItemClass("/admin/settings")}>
+            <Settings className={cn("h-5 w-5", collapsed ? "mx-auto" : "mr-3")} />
+            {!collapsed && <span>Ajustes</span>}
+          </div>
         </Link>
       </div>
 
-      <div className="border-t border-gray-200 p-4">
+      <div className={cn("border-t border-gray-200 p-3", collapsed ? "flex justify-center" : "")}>
         <Link to="/admin/tutorials">
-          <Button 
-            variant="ghost" 
-            className={`w-full justify-start ${isActive("/admin/tutorials")}`}
-          >
-            <BookOpen className="mr-2 h-4 w-4" />
-            Tutoriales
-          </Button>
+          <div className={cn(
+            "flex items-center rounded-md px-3 py-2 hover:bg-gray-100 text-gray-700", 
+            collapsed ? "justify-center" : "",
+            isActive("/admin/tutorials") && "bg-gray-100 text-navy-800"
+          )}>
+            <BookOpen className={cn("h-5 w-5", collapsed ? "mx-auto" : "mr-3")} />
+            {!collapsed && <span>Tutoriales</span>}
+          </div>
         </Link>
-        <div className="mt-4 text-xs text-gray-500">
-          <div>+52 (999) 452 3786</div>
-          <div>Atención rápida</div>
-        </div>
+        {!collapsed && (
+          <div className="mt-4 text-xs text-gray-500 mx-3">
+            <div className="flex items-center gap-2">
+              <span className="h-2 w-2 bg-green-500 rounded-full"></span>
+              <span className="font-medium">Soporte activo</span>
+            </div>
+            <div className="mt-1">+52 (999) 452 3786</div>
+          </div>
+        )}
       </div>
     </aside>
   );

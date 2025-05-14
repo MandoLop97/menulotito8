@@ -150,49 +150,46 @@ const UnifiedBanner = ({ business, isLoading = false }: UnifiedBannerProps) => {
           <Badge className="bg-gray-50/80 text-gray-700 border-gray-200 hover:bg-gray-100 px-3 py-1">Para recoger</Badge>
         </div>
 
-<div className="flex items-center justify-center gap-6 max-w-sm mx-auto bg-white/60 backdrop-blur-md px-3 py-2 rounded-xl shadow-md border border-gray-200 transform scale-[0.9] sm:scale-100">
+        <div className="flex items-center justify-center gap-6 max-w-sm mx-auto bg-white/60 backdrop-blur-md px-3 py-2 rounded-xl shadow-md border border-gray-200 transform scale-[0.9] sm:scale-100">
 
-  <div className="flex items-center gap-2">
-    <Clock className="w-4 h-4 text-navy-700" />
-    <div className="flex flex-col leading-tight">
-      <span className="text-[11px] text-gray-500">Tiempo de entrega</span>
-      <span className="font-semibold text-navy-800 text-sm">25–45 min</span>
-    </div>
-  </div>
-
-  <div className="w-px h-8 bg-gray-300" />
-
-  <div className="flex items-center gap-2">
-    <MapPin className="w-4 h-4 text-navy-700" />
-    <div className="flex flex-col leading-tight">
-      <span className="text-[11px] text-gray-500">Costo de envío</span>
-      <span className="font-semibold text-navy-800 text-sm">Desde $20 MXN</span>
-    </div>
-  </div>
-</div>
-
-
-
-
-      {/* Diálogos */}
-      <Dialog open={showHours} onOpenChange={setShowHours}>
-        <DialogContent className="sm:max-w-md rounded-xl">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-semibold text-center">Horario</DialogTitle>
-          </DialogHeader>
-          <div className="py-2">
-            {businessHours.map((item) => (
-              <div key={item.day} className="flex justify-between py-2.5 border-b last:border-b-0">
-                <div className="font-medium text-navy-800">{item.day}</div>
-                <div className="text-gray-600">{item.hours}</div>
-              </div>
-            ))}
+          <div className="flex items-center gap-2">
+            <Clock className="w-4 h-4 text-navy-700" />
+            <div className="flex flex-col leading-tight">
+              <span className="text-[11px] text-gray-500">Tiempo de entrega</span>
+              <span className="font-semibold text-navy-800 text-sm">25–45 min</span>
+            </div>
           </div>
-          <Button onClick={() => setShowHours(false)} className="w-full mt-4">
-            Cerrar
-          </Button>
-        </DialogContent>
-      </Dialog>
+
+          <div className="w-px h-8 bg-gray-300" />
+
+          <div className="flex items-center gap-2">
+            <MapPin className="w-4 h-4 text-navy-700" />
+            <div className="flex flex-col leading-tight">
+              <span className="text-[11px] text-gray-500">Costo de envío</span>
+              <span className="font-semibold text-navy-800 text-sm">Desde $20 MXN</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Diálogos */}
+        <Dialog open={showHours} onOpenChange={setShowHours}>
+          <DialogContent className="sm:max-w-md rounded-xl">
+            <DialogHeader>
+              <DialogTitle className="text-xl font-semibold text-center">Horario</DialogTitle>
+            </DialogHeader>
+            <div className="py-2">
+              {businessHours.map((item) => (
+                <div key={item.day} className="flex justify-between py-2.5 border-b last:border-b-0">
+                  <div className="font-medium text-navy-800">{item.day}</div>
+                  <div className="text-gray-600">{item.hours}</div>
+                </div>
+              ))}
+            </div>
+            <Button onClick={() => setShowHours(false)} className="w-full mt-4">
+              Cerrar
+            </Button>
+          </DialogContent>
+        </Dialog>
 
         <Dialog open={showLocation} onOpenChange={setShowLocation}>
           <DialogContent className="sm:max-w-md rounded-xl">
