@@ -170,71 +170,72 @@ const UnifiedBanner = ({ business, isLoading = false }: UnifiedBannerProps) => {
           </div>
         </div>
 
-      {/* Diálogos */}
-      <Dialog open={showHours} onOpenChange={setShowHours}>
-        <DialogContent className="sm:max-w-md rounded-xl">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-semibold text-center">Horario</DialogTitle>
-          </DialogHeader>
-          <div className="py-2">
-            {businessHours.map((item) => (
-              <div key={item.day} className="flex justify-between py-2.5 border-b last:border-b-0">
-                <div className="font-medium text-navy-800">{item.day}</div>
-                <div className="text-gray-600">{item.hours}</div>
-              </div>
-            ))}
-          </div>
-          <Button onClick={() => setShowHours(false)} className="w-full mt-4">
-            Cerrar
-          </Button>
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={showLocation} onOpenChange={setShowLocation}>
-        <DialogContent className="sm:max-w-md rounded-xl">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-semibold text-center">Ubicación</DialogTitle>
-          </DialogHeader>
-          <div className="py-4">
-            <p className="text-gray-700 mb-6">{location.address}</p>
-            <div className="flex gap-4 flex-col sm:flex-row">
-              <Button className="flex-1 gap-2" onClick={() => window.open(location.mapUrl, '_blank')}>
-                <ExternalLink className="h-4 w-4" />
-                Ver la ubicación en el mapa
-              </Button>
-              <Button variant="outline" className="flex-1" onClick={() => setShowLocation(false)}>
-                Cerrar
-              </Button>
+        {/* Diálogos */}
+        <Dialog open={showHours} onOpenChange={setShowHours}>
+          <DialogContent className="sm:max-w-md rounded-xl">
+            <DialogHeader>
+              <DialogTitle className="text-xl font-semibold text-center">Horario</DialogTitle>
+            </DialogHeader>
+            <div className="py-2">
+              {businessHours.map((item) => (
+                <div key={item.day} className="flex justify-between py-2.5 border-b last:border-b-0">
+                  <div className="font-medium text-navy-800">{item.day}</div>
+                  <div className="text-gray-600">{item.hours}</div>
+                </div>
+              ))}
             </div>
-          </div>
-        </DialogContent>
-      </Dialog>
+            <Button onClick={() => setShowHours(false)} className="w-full mt-4">
+              Cerrar
+            </Button>
+          </DialogContent>
+        </Dialog>
 
-      <Dialog open={showShare} onOpenChange={setShowShare}>
-        <DialogContent className="sm:max-w-md rounded-xl">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-semibold text-center">Compartir</DialogTitle>
-            <DialogDescription className="text-center">
-              Comparte este menú en tus redes sociales
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid grid-cols-2 gap-4 py-4">
-            {shareOptions.map((option) => (
-              <Button
-                key={option.name}
-                variant="outline"
-                className="flex items-center justify-center gap-2 hover:bg-slate-50 transition-colors"
-                onClick={() => handleShare(option)}
-              >
-                {option.name}
-              </Button>
-            ))}
-          </div>
-          <Button variant="secondary" className="w-full mt-2" onClick={handleCopyLink}>
-            Copiar enlace
-          </Button>
-        </DialogContent>
-      </Dialog>
+        <Dialog open={showLocation} onOpenChange={setShowLocation}>
+          <DialogContent className="sm:max-w-md rounded-xl">
+            <DialogHeader>
+              <DialogTitle className="text-xl font-semibold text-center">Ubicación</DialogTitle>
+            </DialogHeader>
+            <div className="py-4">
+              <p className="text-gray-700 mb-6">{location.address}</p>
+              <div className="flex gap-4 flex-col sm:flex-row">
+                <Button className="flex-1 gap-2" onClick={() => window.open(location.mapUrl, '_blank')}>
+                  <ExternalLink className="h-4 w-4" />
+                  Ver la ubicación en el mapa
+                </Button>
+                <Button variant="outline" className="flex-1" onClick={() => setShowLocation(false)}>
+                  Cerrar
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        <Dialog open={showShare} onOpenChange={setShowShare}>
+          <DialogContent className="sm:max-w-md rounded-xl">
+            <DialogHeader>
+              <DialogTitle className="text-xl font-semibold text-center">Compartir</DialogTitle>
+              <DialogDescription className="text-center">
+                Comparte este menú en tus redes sociales
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid grid-cols-2 gap-4 py-4">
+              {shareOptions.map((option) => (
+                <Button
+                  key={option.name}
+                  variant="outline"
+                  className="flex items-center justify-center gap-2 hover:bg-slate-50 transition-colors"
+                  onClick={() => handleShare(option)}
+                >
+                  {option.name}
+                </Button>
+              ))}
+            </div>
+            <Button variant="secondary" className="w-full mt-2" onClick={handleCopyLink}>
+              Copiar enlace
+            </Button>
+          </DialogContent>
+        </Dialog>
+      </div>
     </div>
   );
 };
