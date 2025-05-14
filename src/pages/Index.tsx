@@ -7,7 +7,6 @@ import Header from '@/components/Header';
 import Cart from '@/components/Cart';
 import { CartProvider } from '@/context/CartContext';
 import UnifiedBanner from '@/components/UnifiedBanner';
-import RestaurantInfo from '@/components/RestaurantInfo';
 import MobileNavBar from '@/components/MobileNavBar';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -159,7 +158,6 @@ const Index = () => {
         
         <div className="">
           <UnifiedBanner />
-          <RestaurantInfo />
         </div>
         
         <CategoryTabs categories={menuCategories} activeCategory={activeCategory} setActiveCategory={handleCategoryChange} />
