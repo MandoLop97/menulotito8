@@ -15,7 +15,7 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
   setActiveCategory
 }) => {
   const tabsRef = useRef<HTMLDivElement>(null);
-  const [showTabs, setShowTabs] = useState(false);
+  const [showTabs, setShowTabs] = useState(true); // Mostrar siempre en lugar de con scrollY
   const isMobile = useIsMobile();
   const tabHeight = 56;
   const tabOffsetTop = isMobile ? 0 : 68;
@@ -23,16 +23,8 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
   const [hasScrolled, setHasScrolled] = useState(false);
 
   useEffect(() => {
-    let lastScrollTime = 0;
-    const scrollThrottleMs = 50;
-
     const handleScroll = () => {
-      const now = Date.now();
-      if (now - lastScrollTime < scrollThrottleMs) return;
-
-      lastScrollTime = now;
-      const passed = window.scrollY > 500;
-
+      const passed = window.scrollY > 100; // activación anticipada, opcional
       if (passed !== showTabs) {
         setShowTabs(passed);
         if (passed && !hasScrolled) setHasScrolled(true);
@@ -90,17 +82,13 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
     }
   };
 
-  const tabsTransitionClass = `transform transition-all duration-300 will-change-transform ${
-    showTabs
-      ? 'opacity-100 translate-y-0'
-      : 'opacity-0 -translate-y-4 pointer-events-none'
-  }`;
-
   return (
     <>
       {!isMobile && <div style={{ height: `${tabHeight}px` }} />}
       <div
-        className={`z-30 fixed left-0 right-0 shadow-md bg-white ${tabsTransitionClass}`}
+        className={`z-30 fixed left-0 right-0 shadow-md bg-white transition-all duration-300 ${
+          showTabs ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
+        }`}
         style={{
           height: `${tabHeight}px`,
           top: `${tabOffsetTop}px`,
@@ -116,7 +104,7 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
           >
             <div
               ref={tabsRef}
-              className="flex gap-4 px-1 py-1 transition-all duration-300"
+              className="flex gap-4 px-1 py-1"
               style={{ scrollBehavior: 'smooth' }}
             >
               {categories.map((category) => {
@@ -145,8 +133,8 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
             </div>
           </ScrollArea>
 
-          <div className="absolute left-0 top-0 h-full w-12 bg-gradient-to-r from-white to-transparent pointer-events-none z-10 transition-opacity duration-300" />
-          <div className="absolute right-0 top-0 h-full w-12 bg-gradient-to-l from-white to-transparent pointer-events-none z-10 transition-opacity duration-300" />
+          <div className="absolute left-0 top-0 h-full w-12 bg-gradient-to-r from-white to-transparent pointer-events-none z-10" />
+          <div className="absolute right-0 top-0 h-full w-12 bg-gradient-to-l from-white to-transparent pointer-events-none z-10" />
         </div>
       </div>
     </>
