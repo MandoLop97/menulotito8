@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Clock, MapPin, Share2, ExternalLink } from "lucide-react";
@@ -134,35 +135,35 @@ const UnifiedBanner = ({ business, isLoading = false }: UnifiedBannerProps) => {
           <Avatar className="h-28 w-28 md:h-32 md:w-32 border-4 border-white shadow-xl bg-white ring-4 ring-white/30">
             <AvatarImage src={displayData.image} alt={displayData.name} className="object-cover" />
             <AvatarFallback className="text-4xl text-navy-800 font-bold bg-orange-500/10">
-  {displayData.name.charAt(0)}
-</AvatarFallback>
+              {displayData.name.charAt(0)}
+            </AvatarFallback>
           </Avatar>
         </div>
       </div>
 
      {/* Nombre y detalles */}
-<div className="text-center mt-4 mb-8 animate-fade-in">
-  <h1 className="text-2xl md:text-3xl font-bold text-navy-800">{displayData.name}</h1>
+      <div className="text-center mt-4 mb-8 animate-fade-in">
+        <h1 className="text-2xl md:text-3xl font-bold text-navy-800">{displayData.name}</h1>
 
-  <div className="flex justify-center gap-3 mt-4 mb-5">
-    <Badge className="bg-green-50/80 text-green-700 border-green-200 hover:bg-green-100 px-3 py-1">A domicilio</Badge>
-    <Badge className="bg-gray-50/80 text-gray-700 border-gray-200 hover:bg-gray-100 px-3 py-1">Para recoger</Badge>
-  </div>
+        <div className="flex justify-center gap-3 mt-4 mb-5">
+          <Badge className="bg-green-50/80 text-green-700 border-green-200 hover:bg-green-100 px-3 py-1">A domicilio</Badge>
+          <Badge className="bg-gray-50/80 text-gray-700 border-gray-200 hover:bg-gray-100 px-3 py-1">Para recoger</Badge>
+        </div>
 
- <div className="flex justify-center gap-5 text-xs text-gray-600 max-w-[260px] mx-auto bg-white/40 backdrop-blur-sm py-2 px-4 rounded-full shadow-sm">
-  <div className="flex flex-col text-center leading-tight">
-    <span className="text-[10px] text-gray-500">Tiempo envío</span>
-    <span className="font-semibold text-navy-800 text-sm">25–45 min</span>
-  </div>
+        <div className="flex justify-center gap-5 text-xs text-gray-600 max-w-[260px] mx-auto bg-white/40 backdrop-blur-sm py-2 px-4 rounded-full shadow-sm">
+          <div className="flex flex-col text-center leading-tight">
+            <span className="text-[10px] text-gray-500">Tiempo envío</span>
+            <span className="font-semibold text-navy-800 text-sm">25–45 min</span>
+          </div>
 
-  <Separator orientation="vertical" className="h-8 bg-gray-200" />
+          <Separator orientation="vertical" className="h-8 bg-gray-200" />
 
-  <div className="flex flex-col text-center leading-tight">
-    <span className="text-[10px] text-gray-500">Costo envío</span>
-    <span className="font-semibold text-navy-800 text-sm">Desde $20 MXN</span>
-  </div>
-</div>
-
+          <div className="flex flex-col text-center leading-tight">
+            <span className="text-[10px] text-gray-500">Costo envío</span>
+            <span className="font-semibold text-navy-800 text-sm">Desde $20 MXN</span>
+          </div>
+        </div>
+      </div>
 
       {/* Diálogos */}
       <Dialog open={showHours} onOpenChange={setShowHours}>
