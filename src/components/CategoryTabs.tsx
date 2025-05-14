@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import { Category } from '@/lib/types';
 import { ScrollArea } from './ui/scroll-area';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -43,7 +43,7 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, [showTabs, hasScrolled]);
 
-  // Scroll a tab activa
+  // Auto-scroll hacia el tab activo
   useEffect(() => {
     if (!tabsRef.current || !activeCategory || scrollingRef.current) return;
 
@@ -58,6 +58,7 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
     }
   }, [activeCategory]);
 
+  // Click manual en categoría
   const handleCategoryClick = (categoryId: string) => {
     if (!tabsRef.current || categoryId === activeCategory) return;
     scrollingRef.current = true;
@@ -75,6 +76,32 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
       scrollingRef.current = false;
     }
   };
+
+  // Escuchar cambios de visibilidad desde MenuSection
+  const handleIntersection = useCallback(() => {
+    const sections = document.querySelectorAll('[data-category-section]');
+    let closestId = activeCategory;
+    let minDistance = Infinity;
+
+    sections.forEach((section) => {
+      const rect = section.getBoundingClientRect();
+      const distance = Math.abs(rect.top - (tabHeight + tabOffsetTop + 8));
+
+      if (distance < minDistance && rect.top < window.innerHeight) {
+        closestId = section.getAttribute('data-category-section') || closestId;
+        minDistance = distance;
+      }
+    });
+
+    if (!scrollingRef.current && closestId !== activeCategory) {
+      setActiveCategory(closestId);
+    }
+  }, [activeCategory, setActiveCategory, tabHeight, tabOffsetTop]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleIntersection, { passive: true });
+    return () => window.removeEventListener('scroll', handleIntersection);
+  }, [handleIntersection]);
 
   const tabsVisibilityClass = showTabs
     ? 'opacity-100 visible pointer-events-auto'

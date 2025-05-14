@@ -28,20 +28,27 @@ const MenuSection: React.FC<MenuSectionProps> = ({
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (
+          entry.isIntersecting &&
+          !entry.target.classList.contains('active-section')
+        ) {
+          entry.target.classList.add('active-section');
           onVisible(categoryId);
         }
       },
       {
         root: null,
-        threshold: 0.4
+        threshold: 0.6 // más estricto para evitar cambios demasiado tempranos
       }
     );
 
     observer.observe(sectionRef.current);
 
     return () => {
-      if (sectionRef.current) observer.unobserve(sectionRef.current);
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+        sectionRef.current.classList.remove('active-section');
+      }
     };
   }, [categoryId, onVisible]);
 
@@ -52,7 +59,9 @@ const MenuSection: React.FC<MenuSectionProps> = ({
       data-category-section={categoryId}
       className="mb-16 pt-4 px-4 rounded-xl bg-white/50 shadow-sm"
     >
-      <h2 className="text-xl font-bold mb-5 text-navy-800 border-b pb-3">{categoryName}</h2>
+      <h2 className="text-xl font-bold mb-5 text-navy-800 border-b pb-3">
+        {categoryName}
+      </h2>
 
       <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-2'} gap-5`}>
         {items.map((item, index) => (
