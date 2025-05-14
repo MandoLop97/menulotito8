@@ -15,61 +15,56 @@ const CategoryTabs: React.FC<CategoryTabsProps> = memo(({ // envuelto completame
   setActiveCategory
 }) => {
   const tabsRef = useRef<HTMLDivElement>(null);
-  const activeTabRef = useRef<HTMLElement | null>(null);
-  const [showTabs, setShowTabs] = useState(true);
+  const [showTabs, setShowTabs] = useState(false);
   const isMobile = useIsMobile();
   const tabHeight = 56;
   const tabOffsetTop = isMobile ? 0 : 68;
   const scrollingRef = useRef<boolean>(false);
-  const debounceRef = useRef<number | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (scrollingRef.current) return;
+      const firstCategoryId = categories[0]?.id;
+      const lastCategoryId = categories[categories.length - 1]?.id;
 
-      if (debounceRef.current !== null) {
-        cancelIdleCallback(debounceRef.current);
-      }
+      const firstSection = document.getElementById(`category-${firstCategoryId}`);
+      const lastSection = document.getElementById(`category-${lastCategoryId}`);
 
-      debounceRef.current = requestIdleCallback(() => {
-        for (const category of categories) {
-          const section = document.getElementById(`category-${category.id}`);
-          if (!section) continue;
+      if (!firstSection || !lastSection) return;
 
-          const rect = section.getBoundingClientRect();
-          if (rect.top <= tabOffsetTop + 20 && rect.bottom > tabOffsetTop + 20) {
-            if (category.id !== activeCategory) {
-              setActiveCategory(category.id);
-            }
-            break;
-          }
-        }
-      });
+      const firstRect = firstSection.getBoundingClientRect();
+      const lastRect = lastSection.getBoundingClientRect();
+
+      const startVisible = firstRect.top <= tabOffsetTop + 50;
+      const endNotPassed = lastRect.bottom >= tabOffsetTop + 50;
+
+      setShowTabs(startVisible && endNotPassed);
     };
 
+    handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      if (debounceRef.current !== null) {
-        cancelIdleCallback(debounceRef.current);
-      }
-    };
-  }, [categories, activeCategory, setActiveCategory, tabOffsetTop]);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [categories, tabOffsetTop]);
 
   useEffect(() => {
-    if (!tabsRef.current || !activeTabRef.current || scrollingRef.current) return;
+    if (!tabsRef.current || !activeCategory || scrollingRef.current) return;
 
-    const rect = activeTabRef.current.getBoundingClientRect();
-    const parentRect = tabsRef.current.getBoundingClientRect();
+    const tabEl = tabsRef.current.querySelector(
+      `.category-tab[data-category="${activeCategory}"]`
+    ) as HTMLElement;
 
-    if (rect.left < parentRect.left || rect.right > parentRect.right) {
-      requestAnimationFrame(() => {
-        activeTabRef.current?.scrollIntoView({
-          behavior: 'smooth',
-          inline: 'center',
-          block: 'nearest'
+    if (tabEl) {
+      const rect = tabEl.getBoundingClientRect();
+      const parentRect = tabsRef.current.getBoundingClientRect();
+
+      if (rect.left < parentRect.left || rect.right > parentRect.right) {
+        requestAnimationFrame(() => {
+          tabEl.scrollIntoView({
+            behavior: 'smooth',
+            inline: 'center',
+            block: 'nearest'
+          });
         });
-      });
+      }
     }
   }, [activeCategory]);
 
@@ -89,12 +84,9 @@ const CategoryTabs: React.FC<CategoryTabsProps> = memo(({ // envuelto completame
         behavior: 'smooth'
       });
 
-      // Bloquea temporalmente el scroll automático
-      const timeout = setTimeout(() => {
+      setTimeout(() => {
         scrollingRef.current = false;
       }, 800);
-
-      return () => clearTimeout(timeout);
     } else {
       scrollingRef.current = false;
     }
@@ -102,10 +94,12 @@ const CategoryTabs: React.FC<CategoryTabsProps> = memo(({ // envuelto completame
 
   return (
     <>
-      {!isMobile && <div style={{ height: `${tabHeight}px` }} />}
+      {!isMobile && showTabs && <div style={{ height: `${tabHeight}px` }} />}
 
       <div
-        className="z-30 fixed left-0 right-0 shadow-md bg-white transition-all duration-300 opacity-100 translate-y-0"
+        className={`z-30 fixed left-0 right-0 shadow-md bg-white transition-all duration-300 ${
+          showTabs ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
+        }`}
         style={{
           height: `${tabHeight}px`,
           top: `${tabOffsetTop}px`,
@@ -130,12 +124,11 @@ const CategoryTabs: React.FC<CategoryTabsProps> = memo(({ // envuelto completame
                 return (
                   <button
                     key={category.id}
-                    ref={isActive ? activeTabRef : null}
                     data-category={category.id}
                     onClick={() => handleCategoryClick(category.id)}
                     className={`category-tab relative whitespace-nowrap px-4 py-3 font-medium text-sm rounded-md transition-all duration-200 ${
                       isActive
-                        ? 'text-navy-800 font-bold bg-white shadow-md'
+                        ? 'text-navy-800 font-semibold bg-white shadow-md'
                         : 'text-gray-600 hover:text-navy-700 hover:bg-gray-50/50'
                     }`}
                   >
